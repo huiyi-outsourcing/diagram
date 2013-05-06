@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Data>
+  <Datas>
+    <DataItem>TimeBasedDynamicDiagram.DynamicDiagram.MDIA</DataItem>
+    <DataItem>TimeBasedDynamicDiagram.DynamicDiagram.MDOA</DataItem>
+  </Datas>
+  <ColumnPos>
+    <Column>TimeBasedDynamicDiagram.DynamicDiagram.MDIA</Column>
+    <Column>TimeBasedDynamicDiagram.DynamicDiagram.MDOA</Column>
+  </ColumnPos>
+</Data>

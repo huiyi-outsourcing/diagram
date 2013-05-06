@@ -1,1 +1,15 @@
 C:\Users\Smile\Desktop\diagram\diagram\bin\Debug\diagram.exe.config
+C:\Users\Smile\Desktop\diagram\diagram\bin\Debug\diagram.exe
+C:\Users\Smile\Desktop\diagram\diagram\bin\Debug\diagram.pdb
+C:\Users\Smile\Desktop\diagram\diagram\obj\Debug\diagram.csprojResolveAssemblyReference.cache
+C:\Users\Smile\Desktop\diagram\diagram\obj\Debug\MainWindow.baml
+C:\Users\Smile\Desktop\diagram\diagram\obj\Debug\MainWindow.g.cs
+C:\Users\Smile\Desktop\diagram\diagram\obj\Debug\App.g.cs
+C:\Users\Smile\Desktop\diagram\diagram\obj\Debug\diagram_MarkupCompile.cache
+C:\Users\Smile\Desktop\diagram\diagram\obj\Debug\diagram.g.resources
+C:\Users\Smile\Desktop\diagram\diagram\obj\Debug\diagram.Properties.Resources.resources
+C:\Users\Smile\Desktop\diagram\diagram\obj\Debug\diagram.csproj.GenerateResource.Cache
+C:\Users\Smile\Desktop\diagram\diagram\obj\Debug\diagram.exe
+C:\Users\Smile\Desktop\diagram\diagram\obj\Debug\diagram.pdb
+C:\Users\Smile\Desktop\diagram\diagram\obj\Debug\StaticDiagram\ChangeScaleWindow.baml
+C:\Users\Smile\Desktop\diagram\diagram\obj\Debug\StaticDiagram\ChangeScaleWindow.g.cs

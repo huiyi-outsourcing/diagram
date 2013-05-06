@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Diagram>
+  <Column>
+    <minwidth>150</minwidth> 
+  </Column>
+  
+  <ColumnBody>
+    <canvasheight>660</canvasheight>
+  </ColumnBody>
+  
+  <ColumnHeader>
+    <height>100</height>
+    <minheight>100</minheight>
+  </ColumnHeader>
+
+  <DisplayInterval>300</DisplayInterval>
+ 
+  <Interval>5</Interval>
+</Diagram>
