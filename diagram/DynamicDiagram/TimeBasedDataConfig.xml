@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Data>
   <Datas>
-    <DataItem>TimeBasedDynamicDiagram.DynamicDiagram.MDIA</DataItem>
-    <DataItem>TimeBasedDynamicDiagram.DynamicDiagram.MDOA</DataItem>
+    <DataItem>diagram.Common.TVOLACT</DataItem>
+    <DataItem>diagram.Common.MFIA</DataItem>
   </Datas>
   <ColumnPos>
-    <Column>TimeBasedDynamicDiagram.DynamicDiagram.MDIA</Column>
-    <Column>TimeBasedDynamicDiagram.DynamicDiagram.MDOA</Column>
+    <Column>diagram.Common.TVOLACT</Column>
+    <Column>diagram.Common.MFIA</Column>
   </ColumnPos>
 </Data>

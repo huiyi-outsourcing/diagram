@@ -238,7 +238,7 @@ namespace diagram.DynamicDiagram
             int rowCount = ds.Tables[0].Rows.Count;
             for (int i = 0; i < 2; ++i)
             {
-                data.depth[i] = ds.Tables[0].Rows[rowCount / 3 * (i + 1)]["DEPTH"].ToString();
+                data.depth[i] = ds.Tables[0].Rows[rowCount / 3 * (i + 1)]["DEPTMEAS"].ToString();
                 data.pos[i] = rowCount / 3 * (i + 1);
             }
 

@@ -125,9 +125,7 @@
     <Resource Include="StaticDiagram\DataConfig.xml" />
     <Resource Include="StaticDiagram\DiagramConfig.xml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Faker\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="DynamicDiagram\DiagramConfig.xml" />
     <Resource Include="DynamicDiagram\TimeBasedDataConfig.xml" />
