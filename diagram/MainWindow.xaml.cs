@@ -32,6 +32,7 @@ namespace diagram
             InitializeComponent();
 
             TabControl _control = new TabControl();
+
             #region 静态图表
             TabItem _Sitem = new TabItem();
             _Sitem.Header = "静态绘图";
@@ -50,6 +51,7 @@ namespace diagram
             {
                 StaticDiagram.DataModel Smodel = new StaticDiagram.DataModel("..\\..\\StaticDiagram\\DataConfig.xml", Sds);
                 StaticDiagram.StaticDiagram diagram = new StaticDiagram.StaticDiagram(800, Smodel);
+                diagram.drawGraphics();
                 _Sitem.Content = diagram;
                 _control.Items.Add(_Sitem);
             }

@@ -4,10 +4,14 @@
     <DataItem>diagram.Common.TVOLACT</DataItem>
     <DataItem>diagram.Common.MFIA</DataItem>
     <DataItem>diagram.Common.MFOA</DataItem>
+    <DataItem>diagram.Common.MTIA</DataItem>
+    <DataItem>diagram.Common.MTOA</DataItem>
+    <DataItem>diagram.Common.DXC</DataItem>
   </Datas>
   <ColumnPos>
     <Column>diagram.Common.TVOLACT</Column>
-    <Column>diagram.Common.MFIA</Column>
-    <Column>diagram.Common.MFOA</Column>
+    <Column>diagram.Common.DXC</Column>
+    <Column>diagram.Common.MFIA,diagram.Common.MFOA</Column>
+    <Column>diagram.Common.MTOA, diagram.Common.MTIA</Column>
   </ColumnPos>
 </Data>

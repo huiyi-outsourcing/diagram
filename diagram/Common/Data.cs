@@ -600,5 +600,32 @@ namespace diagram.Common
         }
     }
 
+    public class MTOA : Data
+    {
+        public MTOA()
+        {
+            _name = "MTOA";
+            _Chinese = "MTOA";
+        }
+    }
+
+    public class MTIA : Data
+    {
+        public MTIA()
+        {
+            _name = "MTIA";
+            _Chinese = "MTIA";
+        }
+    }
+
+    public class DXC : Data
+    {
+        public DXC()
+        {
+            _name = "DXC";
+            _Chinese = "DXC";
+        }
+    }
+
     #endregion
 }
