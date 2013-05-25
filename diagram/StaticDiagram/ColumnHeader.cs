@@ -111,18 +111,6 @@ namespace diagram.StaticDiagram
         }
         #endregion
 
-        #region 路由事件
-        private void addColumnToTheLeft(object sender, RoutedEventArgs args)
-        {
-            MessageBox.Show("在右添加一列");
-        }
-
-        private void alterColumn(object sender, RoutedEventArgs args)
-        {
-            MessageBox.Show("变更对话框");
-        }
-        #endregion
-
         public void adujustGraphics(int width)
         {
             this.Width = width;

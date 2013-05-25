@@ -317,27 +317,6 @@ namespace diagram.DynamicDiagram
             XmlDocument doc = _model.Doc;
             XmlNode root = doc.DocumentElement;
             XmlNodeList nodeList = root.ChildNodes;
-            String prefix = "Diagram.DynamicDiagram.";
-
-            // 保存默认值
-            /*
-            root = nodeList[0];
-            root.RemoveAll();
-            List<Data> defaultList = _model.DataList;
-            for (int i = 0; i < defaultList.Count; ++i)
-            {
-                XmlElement xe = doc.CreateElement("DataItem");
-                Data data = defaultList.ElementAt(i);
-                if (data._min != data._data.Min() && data._max != data._data.Max())
-                {
-                    xe.SetAttribute("min", data._min.ToString());
-                    xe.SetAttribute("max", data._max.ToString());
-                }
-                xe.InnerText = prefix + data._name;
-                root.AppendChild(xe);
-            
-            }
-             */
 
             // 保存默认列
             root = nodeList[1];
@@ -350,10 +329,10 @@ namespace diagram.DynamicDiagram
                 List<ColumnHeaderData> data = header.Data;
 
                 XmlElement xe = doc.CreateElement("Column");
-                xe.InnerText = prefix + data.ElementAt(0).Lblname.Content.ToString();
+                xe.InnerText = data.ElementAt(0).Data._name;
                 for (int j = 1; j < data.Count; ++j)
                 {
-                    xe.InnerText += "," + prefix + data.ElementAt(j).Lblname.Content.ToString();
+                    xe.InnerText += "," + data.ElementAt(j).Data._name;
                 }
                 root.AppendChild(xe);
             }

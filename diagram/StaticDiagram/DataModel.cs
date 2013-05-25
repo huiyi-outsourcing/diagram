@@ -76,17 +76,11 @@ namespace diagram.StaticDiagram
             XmlNodeList dataList = dataNode.ChildNodes;
             foreach (XmlNode node in dataList)
             {
-                Assembly assembly = Assembly.GetAssembly(Type.GetType(node.InnerText));
-                Data d = (Data)assembly.CreateInstance(node.InnerText);
+                String name = "diagram.Common." + node.InnerText;
+                Assembly assembly = Assembly.GetAssembly(Type.GetType(name));
+                Data d = (Data)assembly.CreateInstance(name);
                 d.initializeData(ds);
-                /*
-                if (node.Attributes.Count > 0)
-                {
-                    double min = Double.Parse(node.Attributes["min"].Value);
-                    double max = Double.Parse(node.Attributes["max"].Value);
-                    d.setSpan(min, max);
-                }
-                */
+                
                 _dataList.Add(d);
             }
 
@@ -99,8 +93,7 @@ namespace diagram.StaticDiagram
                 String[] str = node.InnerText.Split(',');
                 for (int i = 0; i < str.Length; ++i)
                 {
-                    String[] nameArray = str[i].Split('.');
-                    String name = nameArray[2].Trim();
+                    String name = str[i];
                     foreach (Data d in _dataList)
                     {
                         if (d._name == name)

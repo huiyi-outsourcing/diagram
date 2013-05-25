@@ -127,7 +127,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Resource Include="DynamicDiagram\DiagramConfig.xml" />
+    <Resource Include="DynamicDiagram\DiagramConfig.xml">
+      <SubType>Designer</SubType>
+    </Resource>
     <Resource Include="DynamicDiagram\TimeBasedDataConfig.xml" />
   </ItemGroup>
   <ItemGroup>

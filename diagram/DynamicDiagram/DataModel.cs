@@ -106,8 +106,9 @@ namespace diagram.DynamicDiagram
             XmlNodeList dataList = dataNode.ChildNodes;
             foreach (XmlNode node in dataList)
             {
-                Assembly assembly = Assembly.GetAssembly(Type.GetType(node.InnerText));
-                Data d = (Data)assembly.CreateInstance(node.InnerText);
+                String name = "diagram.Common." + node.InnerText;
+                Assembly assembly = Assembly.GetAssembly(Type.GetType(name));
+                Data d = (Data)assembly.CreateInstance(name);
                 _dataList.Add(d);
             }
 
@@ -120,8 +121,7 @@ namespace diagram.DynamicDiagram
                 String[] str = node.InnerText.Split(',');
                 for (int i = 0; i < str.Length; ++i)
                 {
-                    String[] nameArray = str[i].Split('.');
-                    String name = nameArray[2].Trim();
+                    String name = str[i];
                     foreach (Data d in _dataList)
                     {
                         if (d._name == name)

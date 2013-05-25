@@ -112,7 +112,7 @@ namespace diagram
         {
             DSconn = new SqlDataAccess("Data Source=(local);Initial Catalog=数据发送数据库;Integrated Security=True");
             DRconn = new SqlDataAccess("Data Source=(local);Initial Catalog=数据接收数据库;Integrated Security=True");
-            SendDs = DSconn.SelectDataSet("Select * from WS_Drilling_Depth_Based where WELLID = '龙109井' and WELLBOREID ='主井眼' order by TDATE DESC, TTIME DESC");
+            SendDs = DSconn.SelectDataSet("Select * from WS_Drilling_Depth_Based where WELLID = '龙109井' and WELLBOREID ='主井眼' order by TDATE ASC, TTIME ASC");
 
             string sql = "DELETE FROM WS_Drilling_Depth_Based where WELLID = '龙109井' and WELLBOREID ='主井眼'";
             DRconn.ExeSQL(sql);

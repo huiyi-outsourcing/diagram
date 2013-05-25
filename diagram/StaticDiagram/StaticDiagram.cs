@@ -62,15 +62,6 @@ namespace diagram.StaticDiagram
             _columns = new List<Column>();
             _panel = new StackPanel();
 
-            
-            //Button start = new Button() { Content = "开始动态画图", Height = 50, Width = 100 };
-            //Button end = new Button() { Content = "停止", Height = 50, Width = 100 };
-            //start.Click += new RoutedEventHandler(startButtonClicked);
-            //end.Click += new RoutedEventHandler(endButtonClicked);
-            //_panel.Children.Add(start);
-            //_panel.Children.Add(end);
-            
-
             List<List<Data>> list = new List<List<Data>>();
             for (int i = 0; i < _model.DefaultColumnNumber; ++i)
             {
@@ -83,7 +74,9 @@ namespace diagram.StaticDiagram
                 if (d._defaultColumnPos.Count == 0)
                     continue;
                 for (int j = 0; j < d._defaultColumnPos.Count; ++j)
+                {
                     list.ElementAt(d._defaultColumnPos.ElementAt(j) - 1).Add(d);
+                }
             }
 
             _scale = new ColumnScale(_model.DEPTMEAS._min, _model.DEPTMEAS._max, _colWidth);
@@ -151,6 +144,33 @@ namespace diagram.StaticDiagram
             adjustGraphics();
         }
 
+        public void saveDataConfig(object sender, RoutedEventArgs args)
+        {
+            XmlDocument doc = _model.Doc;
+            XmlNode root = doc.DocumentElement;
+            XmlNodeList nodeList = root.ChildNodes;
+
+            // 保存默认列
+            root = nodeList[1];
+            root.RemoveAll();
+
+            List<Data> list = _model.DataList;
+            for (int i = 0; i < _columns.Count; ++i)
+            {
+                ColumnHeader header = _columns.ElementAt(i).Header;
+                List<ColumnHeaderData> data = header.Data;
+
+                XmlElement xe = doc.CreateElement("Column");
+                xe.InnerText = data.ElementAt(0).Data._name;
+                for (int j = 1; j < data.Count; ++j)
+                {
+                    xe.InnerText += "," + data.ElementAt(j).Data._name;
+                }
+                root.AppendChild(xe);
+            }
+            doc.Save(_model.Filepath);
+        }
+
         private void adjustGraphics()
         {
             int width = adjustColumnWidth(_width, _columns.Count);
@@ -172,95 +192,6 @@ namespace diagram.StaticDiagram
             }
         }
         #endregion
-
-        #region 动态图表
-        private int _rowCount = 0;
-        private int _depth ;
-
-
-        public void addData(int rowCount, DataTable dt)
-        {
-            for (int i = 0; i < dt.Rows.Count - rowCount; ++i)
-            {
-                _model.appendData(dt, rowCount + i);
-                _depth++;
-                _rowCount++;
-            }
-        }
-
-        public void startDynamicDrawing(DataTable dt)
-        {
-            _model._dt = dt;
-            _rowCount = dt.Rows.Count;
-            _depth = (int)_model.DEPTMEAS._data.Max();
-            drawGraphics();
-        }
-
-
-        public void adjustHeader(int index)
-        {
-            foreach (Column c in _columns)
-            {
-                ColumnHeader header = c.Header;
-                foreach (ColumnHeaderData data in header.Data)
-                {
-                    double max = Double.Parse(data.Lblmax.Content.ToString());
-                    double min = Double.Parse(data.Lblmin.Content.ToString());
-                    if (max != data.Data._max || max != data.Data._min)
-                    {
-                        data.adjustLabel();
-                        c.Body.repaint();
-                        c.drawGraphics();
-                    }
-                }
-            }
-            double showHeight = _scale.CanvasHeight * _scale.Scale;
-            if (_depth >= showHeight + _model.DEPTMEAS._min - 100)
-            {
-                _scale.adjustScale(_depth + 20);
-                foreach (Column c in _columns)
-                {
-                    c._scale = _scale.Scale;
-                    c.Body.repaint();
-                    c.drawGraphics();
-                }
-            }
-            else
-            {
-                addGraphics(_rowCount - index);
-            }
-
-        }
-
-        private void TimerTicked(object sender, EventArgs args)
-        {
-            //addData();
-            //adjustHeader();
-            double showHeight = _scale.CanvasHeight * _scale.Scale;
-            if (_depth >= showHeight + _model.DEPTMEAS._min - 100)
-            {
-                _scale.adjustScale(_depth+500);
-                foreach (Column c in _columns)
-                {
-                    c._scale = _scale.Scale;
-                    c.Body.repaint();
-                    c.drawGraphics();
-                }
-            }
-            else 
-            {
-                addGraphics(_rowCount - 20);
-            }
-        }
-
-        private void addGraphics(int startIndex)
-        {
-            foreach (Column c in _columns)
-            {
-                c.addGraphics(startIndex);
-            }
-        }
-        #endregion
         
         public void drawGraphics()
         {
@@ -269,54 +200,6 @@ namespace diagram.StaticDiagram
                 column.Body.repaint();
                 column.drawGraphics();
             }
-        }
-
-        public void saveDataConfig(object sender, RoutedEventArgs args)
-        {
-            XmlDocument doc = _model.Doc;
-            XmlNode root = doc.DocumentElement;
-            XmlNodeList nodeList = root.ChildNodes;
-            String prefix = "Diagram.StaticDiagram.";
-
-            // 保存默认值
-            /*
-            root = nodeList[0];
-            root.RemoveAll();
-            List<Data> defaultList = _model.DataList;
-            for (int i = 0; i < defaultList.Count; ++i)
-            {
-                XmlElement xe = doc.CreateElement("DataItem");
-                Data data = defaultList.ElementAt(i);
-                if (data._min != data._data.Min() && data._max != data._data.Max())
-                {
-                    xe.SetAttribute("min", data._min.ToString());
-                    xe.SetAttribute("max", data._max.ToString());
-                }
-                xe.InnerText = prefix + data._name;
-                root.AppendChild(xe);
-            
-            }
-             */
-
-            // 保存默认列
-            root = nodeList[1];
-            root.RemoveAll();
-
-            List<Data> list = _model.DataList;
-            for (int i = 0; i < _columns.Count; ++i)
-            {
-                ColumnHeader header = _columns.ElementAt(i).Header;
-                List<ColumnHeaderData> data = header.Data;
-
-                XmlElement xe = doc.CreateElement("Column");
-                xe.InnerText = prefix + data.ElementAt(0).Data._name;
-                for (int j = 1; j < data.Count; ++j)
-                {
-                    xe.InnerText += "," + prefix + data.ElementAt(j).Data._name;
-                }
-                root.AppendChild(xe);
-            }
-            doc.Save(_model.Filepath);
         }
     }
 }

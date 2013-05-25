@@ -95,7 +95,6 @@ namespace diagram.StaticDiagram
             alter.Click += new RoutedEventHandler(alterColumn);
             MenuItem save = new MenuItem() { Header = "保存配置" };
             save.Click += new RoutedEventHandler(saveConfig);
-            MenuItem draw = new MenuItem() { Header = "动态绘图" };
 
             _menu.Items.Add(add);
             _menu.Items.Add(alter);
