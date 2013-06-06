@@ -25,20 +25,20 @@ namespace diagram.DynamicDiagram
             _data = data;
 
             _lblname = new Label();
-            _lblname.Content = _data._Chinese;
+            _lblname.Content = _data.Chinese;
             _lblname.HorizontalAlignment = HorizontalAlignment.Center;
             _lblname.VerticalAlignment = VerticalAlignment.Center;
             _lblname.FontSize = 13;
             _lblname.Foreground = Brushes.LightBlue;
 
             _lblmin = new Label();
-            _lblmin.Content = _data._min.ToString();
+            _lblmin.Content = _data.Min.ToString();
             _lblmin.HorizontalAlignment = HorizontalAlignment.Center;
             _lblmin.VerticalAlignment = VerticalAlignment.Center;
             _lblmin.FontSize = 10;
 
             _lblmax = new Label();
-            _lblmax.Content = _data._max.ToString();
+            _lblmax.Content = _data.Max.ToString();
             _lblmax.HorizontalAlignment = HorizontalAlignment.Center;
             _lblmax.VerticalAlignment = VerticalAlignment.Center;
             _lblmax.FontSize = 10;
@@ -82,8 +82,8 @@ namespace diagram.DynamicDiagram
         #region Methods
         public void adjustLabel()
         {
-            _lblmin.Content =Math.Round(Convert.ToDouble(_data._min.ToString()),2);
-            _lblmax.Content =Math.Round(Convert.ToDouble(_data._max.ToString()),2);
+            _lblmin.Content =Math.Round(Convert.ToDouble(_data.Min.ToString()),2);
+            _lblmax.Content =Math.Round(Convert.ToDouble(_data.Max.ToString()),2);
         }
         #endregion
     }

@@ -53,7 +53,7 @@ namespace diagram.StaticDiagram
         }
         #endregion
 
-        #region 初始化
+        #region Constructor
         private void initializeData(double width, DataModel model)
         {
             _width = width;
@@ -71,20 +71,20 @@ namespace diagram.StaticDiagram
             for (int i = 0; i < _model.DataList.Count; ++i)
             {
                 Data d = _model.DataList.ElementAt(i);
-                if (d._defaultColumnPos.Count == 0)
+                if (d.DefaultColumnPos.Count == 0)
                     continue;
-                for (int j = 0; j < d._defaultColumnPos.Count; ++j)
+                for (int j = 0; j < d.DefaultColumnPos.Count; ++j)
                 {
-                    list.ElementAt(d._defaultColumnPos.ElementAt(j) - 1).Add(d);
+                    list.ElementAt(d.DefaultColumnPos.ElementAt(j) - 1).Add(d);
                 }
             }
 
-            _scale = new ColumnScale(_model.DEPTMEAS._min, _model.DEPTMEAS._max, _colWidth);
+            _scale = new ColumnScale(_model.DEPTMEAS.Min, _model.DEPTMEAS.Max, _colWidth);
             _panel.Children.Add(_scale);
             _height = _scale.CanvasHeight;
             for (int i = 0; i < _model.DefaultColumnNumber; ++i)
             {
-                Column c = new Column(_colWidth, _height, list.ElementAt(i), _model.DEPTMEAS._data.Min(), _model.DEPTMEAS._data.Max(), _scale.Scale, _model);
+                Column c = new Column(_colWidth, _height, list.ElementAt(i), _model.DEPTMEAS.DData.Min(), _model.DEPTMEAS.DData.Max(), _scale.Scale, _model);
                 _columns.Add(c);
                 _panel.Children.Add(c);
             }
@@ -109,27 +109,10 @@ namespace diagram.StaticDiagram
         }
         #endregion 
 
-        public int adjustColumnWidth(double width, int colnum)
-        {
-            if (width / (int)_ColumnWidth.BIG >= colnum) { return (int)_ColumnWidth.BIG; }
-            else if (width / (int)_ColumnWidth.MIDDLE >= colnum) { return (int)_ColumnWidth.MIDDLE; }
-            else { return (int)_ColumnWidth.SMALL; }
-        }
-
-        public void adjustScale(double scale)
-        {
-            foreach (Column c in _columns)
-            {
-                c._scale = scale;
-                c.Body.repaint();
-                c.drawGraphics();
-            }
-        }
-
-        #region 事件处理函数
+        #region Event Handling Methods
         public void addColumn(int pos, List<Data> list)
         {
-            Column c = new Column(_colWidth, _height, list, _model.DEPTMEAS._data.Min(), _model.DEPTMEAS._data.Max(), _scale.Scale, _model);
+            Column c = new Column(_colWidth, _height, list, _model.DEPTMEAS.DData.Min(), _model.DEPTMEAS.DData.Max(), _scale.Scale, _model);
             _columns.Insert(pos-1, c);
             _panel.Children.Insert(pos, c);
             adjustGraphics();
@@ -146,29 +129,7 @@ namespace diagram.StaticDiagram
 
         public void saveDataConfig(object sender, RoutedEventArgs args)
         {
-            XmlDocument doc = _model.Doc;
-            XmlNode root = doc.DocumentElement;
-            XmlNodeList nodeList = root.ChildNodes;
-
-            // 保存默认列
-            root = nodeList[1];
-            root.RemoveAll();
-
-            List<Data> list = _model.DataList;
-            for (int i = 0; i < _columns.Count; ++i)
-            {
-                ColumnHeader header = _columns.ElementAt(i).Header;
-                List<ColumnHeaderData> data = header.Data;
-
-                XmlElement xe = doc.CreateElement("Column");
-                xe.InnerText = data.ElementAt(0).Data._name;
-                for (int j = 1; j < data.Count; ++j)
-                {
-                    xe.InnerText += "," + data.ElementAt(j).Data._name;
-                }
-                root.AppendChild(xe);
-            }
-            doc.Save(_model.Filepath);
+            _model.saveDataConfig(_columns);
         }
 
         private void adjustGraphics()
@@ -192,7 +153,25 @@ namespace diagram.StaticDiagram
             }
         }
         #endregion
-        
+
+        #region Graphics Methods
+        public int adjustColumnWidth(double width, int colnum)
+        {
+            if (width / (int)_ColumnWidth.BIG >= colnum) { return (int)_ColumnWidth.BIG; }
+            else if (width / (int)_ColumnWidth.MIDDLE >= colnum) { return (int)_ColumnWidth.MIDDLE; }
+            else { return (int)_ColumnWidth.SMALL; }
+        }
+
+        public void adjustScale(double scale)
+        {
+            foreach (Column c in _columns)
+            {
+                c._scale = scale;
+                c.Body.repaint();
+                c.drawGraphics();
+            }
+        }
+
         public void drawGraphics()
         {
             foreach (Column column in _columns)
@@ -201,5 +180,6 @@ namespace diagram.StaticDiagram
                 column.drawGraphics();
             }
         }
+        #endregion
     }
 }

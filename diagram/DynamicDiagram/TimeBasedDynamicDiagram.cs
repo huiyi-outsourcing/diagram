@@ -82,10 +82,10 @@ namespace diagram.DynamicDiagram
             for (int i = 0; i < _model.DataList.Count; ++i)
             {
                 Data d = _model.DataList.ElementAt(i);
-                if (d._defaultColumnPos.Count == 0)
+                if (d.DefaultColumnPos.Count == 0)
                     continue;
-                for (int j = 0; j < d._defaultColumnPos.Count; ++j)
-                    list.ElementAt(d._defaultColumnPos.ElementAt(j) - 1).Add(d);
+                for (int j = 0; j < d.DefaultColumnPos.Count; ++j)
+                    list.ElementAt(d.DefaultColumnPos.ElementAt(j) - 1).Add(d);
             }
 
             _scale = new ScaleColumn(_colWidth);
@@ -163,88 +163,126 @@ namespace diagram.DynamicDiagram
                 _colWidth = width;
             }
         }
+
+        public void saveDataConfig(object sender, RoutedEventArgs args)
+        {
+            _model.saveDataConfig(_columns);
+        }
         #endregion
 
         #region TimeBasedGraphics
+        private SqlDataAccess conn;
+        private String TableName;
+        private String WellID;
+        private String WellBoreID;
+        private ScaleData data;
+
+        private System.Windows.Forms.Timer _timer;
 
         public void startDynamicDrawing()
         {
-            
+            _timer.Enabled = true;
         }
 
-        public void getData(Time last, ScaleData data, DataSet ds)
+        public void startDynamicDrawing(SqlDataAccess conn,
+                                        String TableName,
+                                        String WellID,
+                                        String WellBoreID,
+                                        ScaleData data)
         {
-            Time first = last.subtractMinutes(_model.DisplayInterval);
-            data.FirstTime = first;
+            this.conn = conn;
+            this.TableName = TableName;
+            this.WellID = WellID;
+            this.WellBoreID = WellBoreID;
+            this.data = data;
 
-            int diff = last.get_diff_by_minute(first);
-            data.getTime(last, diff);
-            int rowCount = ds.Tables[0].Rows.Count;
-            for (int i = 0; i < 2; ++i)
-            {
-                data.depth[i] = ds.Tables[0].Rows[rowCount / 3 * (i + 1)]["DEPTH"].ToString();
-                data.pos[i] = rowCount / 3 * (i + 1);
-            }
-
-            _model.getData(ds);
+            _timer = new System.Windows.Forms.Timer();
+            _timer.Enabled = true;
+            _timer.Interval = _model.Interval;
+            _timer.Tick += new EventHandler(getData);
         }
 
+        //public void getData(Time last, ScaleData data, DataSet ds)
+        //{
+        //    Time first = last.subtractMinutes(_model.DisplayInterval);
+        //    data.FirstTime = first;
+
+        //    int diff = last.get_diff_by_minute(first);
+        //    data.getTime(last, diff);
+        //    int rowCount = ds.Tables[0].Rows.Count;
+        //    for (int i = 0; i < 2; ++i)
+        //    {
+        //        data.Depth[i] = ds.Tables[0].Rows[rowCount / 3 * (i + 1)]["DEPTH"].ToString();
+        //        data.Pos[i] = rowCount / 3 * (i + 1);
+        //    }
+
+        //    _model.getData(ds);
+        //}
 
 
-        public void getData(SqlDataAccess conn,
-                            String TableName,
-                            String WellID,
-                            String WellBoreID,
-                            ScaleData data)
+
+        public void getData(object sender, EventArgs args)
         {
             DataSet dataSet = new DataSet();
             dataSet = conn.SelectDataSet("SELECT TOP 1 * FROM " + TableName + " WHERE WELLID = '" + WellID
                                             + "' AND WELLBOREID ='" + WellBoreID + "' ORDER BY TDATE DESC, TTIME DESC");
-            String date = dataSet.Tables[0].Rows[0]["TDATE"].ToString();
-            String time = dataSet.Tables[0].Rows[0]["TTIME"].ToString();
-            // 数据截止时间
-            Time last = new Time(date, time);
-            Time first = last.subtractMinutes(_model.DisplayInterval);
-            date = first.ToDateString();
-            time = first.ToTimeString();
 
-            dataSet.Clear();
-            dataSet.Dispose();
-
-            DataSet ds = new DataSet();
-
-            string str = "SELECT * FROM " + TableName + " Where (TDATE = '" + date + "' And TTime >= '" + time + "') Or (TDate >'" + date + "') AND WELLID = '" + WellID + "' AND WELLBOREID ='" + WellBoreID + "' ORDER BY TDATE asc,TTIME asc";
-
-            
-
-            //ds = conn.SelectDataSet("SELECT * FROM (SELECT * FROM " + TableName
-            //                        + " WHERE TDATE >= '" + date + "') AS TEMP WHERE TEMP.TTIME >= '" + time + "' ORDER BY TEMP.TDATE asc, TEMP.TTIME asc");
-            
-            
-            ds = conn.SelectDataSet(str);
-
-            int N = ds.Tables[0].Rows.Count;
-
-
-            // 数据起始时间
-            first = getDateTime(ds.Tables[0].Rows[0]["TDATE"].ToString(),
-                                     ds.Tables[0].Rows[0]["TTIME"].ToString());
-
-            data.FirstTime = first;
-            // 获取两时间的差值
-            int diff = last.get_diff_by_minute(first);
-            data.getTime(last, diff);
-
-            int rowCount = ds.Tables[0].Rows.Count;
-            for (int i = 0; i < 2; ++i)
+            if (dataSet.Tables[0].Rows.Count != 0)
             {
-                data.depth[i] = ds.Tables[0].Rows[rowCount / 3 * (i + 1)]["DEPTMEAS"].ToString();
-                data.pos[i] = rowCount / 3 * (i + 1);
-            }
 
-            _model.getData(ds);
-            ds.Clear();
-            ds.Dispose();
+                String date = dataSet.Tables[0].Rows[0]["TDATE"].ToString();
+                String time = dataSet.Tables[0].Rows[0]["TTIME"].ToString();
+                // 数据截止时间
+                Time last = new Time(date, time);
+                Time first = last.subtractMinutes(_model.DisplayInterval);
+                date = first.ToDateString();
+                time = first.ToTimeString();
+
+                dataSet.Clear();
+                dataSet.Dispose();
+
+                DataSet ds = new DataSet();
+
+                string str = "SELECT * FROM " + TableName + " Where (TDATE = '" + date + "' And TTime >= '" + time + "') Or (TDate >'" + date + "') AND WELLID = '" + WellID + "' AND WELLBOREID ='" + WellBoreID + "' ORDER BY TDATE asc,TTIME asc";
+
+
+
+                //ds = conn.SelectDataSet("SELECT * FROM (SELECT * FROM " + TableName
+                //                        + " WHERE TDATE >= '" + date + "') AS TEMP WHERE TEMP.TTIME >= '" + time + "' ORDER BY TEMP.TDATE asc, TEMP.TTIME asc");
+
+
+                ds = conn.SelectDataSet(str);
+
+                int N = ds.Tables[0].Rows.Count;
+
+
+                // 数据起始时间
+                first = getDateTime(ds.Tables[0].Rows[0]["TDATE"].ToString(),
+                                         ds.Tables[0].Rows[0]["TTIME"].ToString());
+
+                data.FirstTime = first;
+                // 获取两时间的差值
+                int diff = last.get_diff_by_minute(first);
+                data.getTime(last, diff);
+
+                int rowCount = ds.Tables[0].Rows.Count;
+                for (int i = 0; i < 2; ++i)
+                {
+                    data.Depth[i] = ds.Tables[0].Rows[rowCount / 3 * (i + 1)]["DEPTMEAS"].ToString();
+                    data.Pos[i] = rowCount / 3 * (i + 1);
+                }
+
+                _model.getData(ds);
+                ds.Clear();
+                ds.Dispose();
+
+                adjustHeader();
+                foreach (Column col in this.Columns)
+                {
+                    col.repaint(data);
+                }
+                Scale.repaintScale(data);
+            }
         }
 
         // 调整表头
@@ -257,7 +295,7 @@ namespace diagram.DynamicDiagram
                 {
                     double max = Double.Parse(data.Lblmax.Content.ToString());
                     double min = Double.Parse(data.Lblmin.Content.ToString());
-                    if (max != data.Data._max || max != data.Data._min)
+                    if (max != data.Data.Max || max != data.Data.Min)
                     {
                         data.adjustLabel();
                         c.Body.repaint();
@@ -309,34 +347,7 @@ namespace diagram.DynamicDiagram
 
         public void endDrawing()
         {
-            
-        }
-
-        public void saveDataConfig(object sender, RoutedEventArgs args)
-        {
-            XmlDocument doc = _model.Doc;
-            XmlNode root = doc.DocumentElement;
-            XmlNodeList nodeList = root.ChildNodes;
-
-            // 保存默认列
-            root = nodeList[1];
-            root.RemoveAll();
-
-            List<Data> list = _model.DataList;
-            for (int i = 0; i < _columns.Count; ++i)
-            {
-                ColumnHeader header = _columns.ElementAt(i).Header;
-                List<ColumnHeaderData> data = header.Data;
-
-                XmlElement xe = doc.CreateElement("Column");
-                xe.InnerText = data.ElementAt(0).Data._name;
-                for (int j = 1; j < data.Count; ++j)
-                {
-                    xe.InnerText += "," + data.ElementAt(j).Data._name;
-                }
-                root.AppendChild(xe);
-            }
-            doc.Save(_model.Filepath);
+            _timer.Enabled = false;
         }
         #endregion
 

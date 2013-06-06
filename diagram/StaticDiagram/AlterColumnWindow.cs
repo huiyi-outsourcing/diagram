@@ -22,7 +22,7 @@ namespace diagram.StaticDiagram
     class AlterColumnWindow : Window
     {
         #region properties
-        // 图形试图元素
+        // 图形视图元素
         private TabControl _tab;                    
         private Grid _grid;
         private StackPanel _panel;
@@ -79,7 +79,7 @@ namespace diagram.StaticDiagram
         public void createTabItem(Data data)
         {
             TabItem item = new TabItem();
-            item.Header = data._name;
+            item.Header = data.Name;
             item.Tag = data;
 
             Grid grid = new Grid();
@@ -109,13 +109,13 @@ namespace diagram.StaticDiagram
             grid.Children.Add(leftmin);
             grid.Children.Add(leftmax);
 
-            TextBlock name = new TextBlock() { Text = data._name };
+            TextBlock name = new TextBlock() { Text = data.Name };
             Grid.SetColumn(name, 1);
             Grid.SetRow(name, 0);
-            TextBox min = new TextBox() { Text = data._min.ToString() };
+            TextBox min = new TextBox() { Text = data.Min.ToString() };
             Grid.SetColumn(min, 1);
             Grid.SetRow(min, 1);
-            TextBox max = new TextBox() { Text = data._max.ToString() };
+            TextBox max = new TextBox() { Text = data.Max.ToString() };
             Grid.SetColumn(max, 1);
             Grid.SetRow(max, 2);
             grid.Children.Add(name);
@@ -171,8 +171,8 @@ namespace diagram.StaticDiagram
                 Grid grid = item.Content as Grid;
                 TextBox min = grid.Children[4] as TextBox;
                 TextBox max = grid.Children[5] as TextBox;
-                data._min = Double.Parse(min.Text);
-                data._max = Double.Parse(max.Text);
+                data.Min = Double.Parse(min.Text);
+                data.Max = Double.Parse(max.Text);
 
                 ColumnHeaderData headerData = new ColumnHeaderData(data);
                 list.Add(headerData);

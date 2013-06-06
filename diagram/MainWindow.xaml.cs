@@ -50,7 +50,7 @@ namespace diagram
             else
             {
                 StaticDiagram.DataModel Smodel = new StaticDiagram.DataModel("..\\..\\StaticDiagram\\DataConfig.xml", Sds);
-                StaticDiagram.StaticDiagram diagram = new StaticDiagram.StaticDiagram(800, Smodel);
+                StaticDiagram.StaticDiagram diagram = new StaticDiagram.StaticDiagram(900, Smodel);
                 diagram.drawGraphics();
                 _Sitem.Content = diagram;
                 _control.Items.Add(_Sitem);
@@ -62,6 +62,7 @@ namespace diagram
             _Ditem.Header = "动态绘图";
             initializeDataBase();
             initializeGraphics();
+
             System.Windows.Forms.Timer _timer = new System.Windows.Forms.Timer();
 
             _timer.Enabled = true;
@@ -69,19 +70,6 @@ namespace diagram
             _timer.Tick += new EventHandler(DataCollect);
 
             _control.Items.Add(_Ditem);
-
-
-            //DynamicDiagram.ScaleData data = new DynamicDiagram.ScaleData();
-            //Ddiagram.getData(Rconn, "WS_Drilling_Depth_Based", "龙109井", "主井眼", data);
-
-            //Ddiagram.adjustHeader();
-            //foreach (Column col in diagram.Columns)
-            //{
-            //    col.repaint(data);
-            //}
-            //diagram.Scale.repaintScale(data);
-            //this.Content = diagram;
-            //_control.Items.Add(_Ditem);
             #endregion
 
             this._grid.Children.Add(_control);
@@ -104,8 +92,14 @@ namespace diagram
         private void initializeGraphics()
         {
             Dmodel = new DynamicDiagram.DataModel("..//..//DynamicDiagram//TimeBasedDataConfig.xml", ReceiveDs);
-            Ddiagram = new DynamicDiagram.TimeBasedDynamicDiagram(600, Dmodel);
+            Ddiagram = new DynamicDiagram.TimeBasedDynamicDiagram(900, Dmodel);
             data = new DynamicDiagram.ScaleData();
+
+            Ddiagram.startDynamicDrawing(DRconn, "WS_Drilling_Depth_Based", "龙109井", "主井眼", data);
+
+            //Ddiagram.getData(DRconn, "WS_Drilling_Depth_Based", "龙109井", "主井眼", data);
+
+            _Ditem.Content = Ddiagram;
         }
 
         private void initializeDataBase()
@@ -118,14 +112,12 @@ namespace diagram
             DRconn.ExeSQL(sql);
         }
 
-        private void DataCollect(object sender, EventArgs e)
+        private void DataCollect(object sender, EventArgs args)
         {
             // 模拟传输数据
-            for (int col = 0; col < SendDs.Tables[0].Columns.Count; ++col)
-            {
-                //DataRow row = ReceiveDs.Tables[0].NewRow();
-                //row[col] = SendDs.Tables[0].Rows[lineNumber][col];
-            }
+            if (lineNumber > SendDs.Tables[0].Rows.Count)
+                return;
+
             DataRow row = SendDs.Tables[0].Rows[lineNumber++];
 
             string insert = "Insert into WS_Drilling_Depth_Based (WELLID,WELLBOREID,STKNUM,RECID,SEQID,TDATE,TTIME,ACTCOD,DEPTMEAS,DEPTVERT,ROPA,WOBA,HKLA,SPPA,TORQA,RPMA,BTREVC,MDIA,ECDTD,MFIA,MFOA,MFOP,TVOLACT,CPDI,CPDC,BTDTIME,BTDDIST,DXC,PipeNo,PipeLength,KellyDown,Dcn,pf,Frac,DRTM,BPOS,SPM1,SPM2,SPM3,HookTorq,CHKP,MDOA,MTOA,MTIA,MCOA,MCIA,SFLAG) VALUES('" + "龙109井" + "','"
@@ -137,32 +129,15 @@ namespace diagram
             DRconn.ExeSQL(insert);
             
             // DynamicDiagram获取数据
-            Ddiagram.getData(DRconn, "WS_Drilling_Depth_Based", "龙109井", "主井眼", data);
+            //Ddiagram.getData(DRconn, "WS_Drilling_Depth_Based", "龙109井", "主井眼", data);
 
-            Ddiagram.adjustHeader();
-            foreach (DynamicDiagram.Column col in Ddiagram.Columns)
-            {
-                col.repaint(data);
-            }
-            Ddiagram.Scale.repaintScale(data);
-
-            _Ditem.Content = Ddiagram;
-            
-        }
-
-        private void getInsertString()
-        {
-            
+            //Ddiagram.adjustHeader();
+            //foreach (DynamicDiagram.Column col in Ddiagram.Columns)
+            //{
+            //    col.repaint(data);
+            //}
+            //Ddiagram.Scale.repaintScale(data);
         }
         #endregion
-
-        //private void time_Tick(object sender, EventArgs args)
-        //{
-        //    DataSet ds = Dconn.SelectDataSet("Select * from WS_Drilling_Depth_Based where WELLID = '龙109井' and WELLBOREID ='主井眼' order by DEPTMEAS asc");
-
-        //    DynamicDiagram.DataModel model = new DynamicDiagram.DataModel("..\\..\\DynamicDiagram\\DataConfig.xml", ds);
-        //    DynamicDiagram.TimeBasedDynamicDiagram diagram = new DynamicDiagram.TimeBasedDynamicDiagram(800, model);
-        //    this.Content = diagram;
-        //}
     }
 }

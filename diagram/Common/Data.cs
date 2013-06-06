@@ -10,13 +10,57 @@ namespace diagram.Common
     public abstract class Data
     {
         #region Properties
-        public String _name;
-        public List<int> _defaultColumnPos;
-        public double _min;
-        public double _max;
-        public List<double> _data;
-        public List<String> _StringData;
-        public string _Chinese;
+        private String _name;
+        private List<int> _defaultColumnPos;
+        private double _min;
+        private double _max;
+        private List<double> _data;
+        private List<String> _StringData;
+        private string _Chinese;
+        #endregion
+
+        #region Getter / Setter
+        public double Max
+        {
+            get { return _max; }
+            set { _max = value; }
+        }
+
+        public String Name
+        {
+            get { return _name; }
+            set { _name = value; }
+        }
+        
+        public List<int> DefaultColumnPos
+        {
+            get { return _defaultColumnPos; }
+            set { _defaultColumnPos = value; }
+        }
+
+        public double Min
+        {
+            get { return _min; }
+            set { _min = value; }
+        }
+
+        public List<double> DData
+        {
+            get { return _data; }
+            set { _data = value; }
+        }
+
+        public List<String> StringData
+        {
+            get { return _StringData; }
+            set { _StringData = value; }
+        }
+
+        public string Chinese
+        {
+            get { return _Chinese; }
+            set { _Chinese = value; }
+        }
         #endregion
 
         public Data()
@@ -86,13 +130,14 @@ namespace diagram.Common
     {
         public DEPTMEAS()
         {
-            _name = "DEPTMEAS";
-            _Chinese = "深度(m)";
+            Name = "DEPTMEAS";
+            Chinese = "深度(m)";
         }
+
         public override void setSpan()
         {
-            _min = _data.Min();
-            _max = _data.Max();
+            Min = DData.Min();
+            Max = DData.Max();
         }
     }
 
@@ -100,14 +145,14 @@ namespace diagram.Common
     {
         public BKHT()
         {
-            _name = "BKHT";
-            _Chinese = "钩位(m)";
+            Name = "BKHT";
+            Chinese = "钩位(m)";
         }
 
         public override void setSpan()
         {
-            _min = _data.Min();
-            _max = _data.Max();
+            Min = DData.Min();
+            Max = DData.Max();
         }
     }
 
@@ -115,14 +160,14 @@ namespace diagram.Common
     {
         public HOOKLOAD()
         {
-            _name = "HOOKLOAD";
-            _Chinese = "悬重(KN)";
+            Name = "HOOKLOAD";
+            Chinese = "悬重(KN)";
         }
 
         public override void setSpan()
         {
-            _min = _data.Min() * 0.5;
-            _max = _data.Max() * 2.0;
+            Min = DData.Min() * 0.5;
+            Max = DData.Max() * 2.0;
         }
     }
 
@@ -131,14 +176,14 @@ namespace diagram.Common
     {
         public ROP()
         {
-            _name = "ROP";
-            _Chinese = "钻时(m/min)";
+            Name = "ROP";
+            Chinese = "钻时(m/min)";
         }
 
         public override void setSpan()
         {
-            _min = _data.Min() * 0.5;
-            _max = _data.Max() * 2.0;
+            Min = DData.Min() * 0.5;
+            Max = DData.Max() * 2.0;
         }
     }
 
@@ -147,14 +192,14 @@ namespace diagram.Common
     {
         public WOB()
         {
-            _name = "WOB";
-            _Chinese = "钻压(KN)";
+            Name = "WOB";
+            Chinese = "钻压(KN)";
         }
 
         public override void setSpan()
         {
-            _min = _data.Min() * 0.5;
-            _max = _data.Max() * 2.0;
+            Min = DData.Min() * 0.5;
+            Max = DData.Max() * 2.0;
         }
     }
 
@@ -163,14 +208,14 @@ namespace diagram.Common
     {
         public RPM()
         {
-            _name = "RPM";
-            _Chinese = "转速(r/min)";
+            Name = "RPM";
+            Chinese = "转速(r/min)";
         }
 
         public override void setSpan()
         {
-            _min = _data.Min() * 0.5;
-            _max = _data.Max() * 2.0;
+            Min = DData.Min() * 0.5;
+            Max = DData.Max() * 2.0;
         }
     }
 
@@ -179,14 +224,14 @@ namespace diagram.Common
     {
         public TORQUE()
         {
-            _name = "TORQUE";
-            _Chinese = "转盘扭矩(KN/m)";
+            Name = "TORQUE";
+            Chinese = "转盘扭矩(KN/m)";
         }
 
         public override void setSpan()
         {
-            _min = _data.Min() * 0.5;
-            _max = _data.Max() * 2.0;
+            Min = DData.Min() * 0.5;
+            Max = DData.Max() * 2.0;
         }
     }
 
@@ -194,14 +239,14 @@ namespace diagram.Common
     {
         public SPM1()
         {
-            _name = "SPM1";
-            _Chinese = "泵冲数1(N/min)";
+            Name = "SPM1";
+            Chinese = "泵冲数1(N/min)";
         }
 
         public override void setSpan()
         {
-            _min = _data.Min() * 0.5;
-            _max = _data.Max() * 2.0;
+            Min = DData.Min() * 0.5;
+            Max = DData.Max() * 2.0;
         }
     }
 
@@ -209,14 +254,14 @@ namespace diagram.Common
     {
         public SPM2()
         {
-            _name = "SPM2";
-            _Chinese = "泵冲数2(N/min)";
+            Name = "SPM2";
+            Chinese = "泵冲数2(N/min)";
         }
 
         public override void setSpan()
         {
-            _min = _data.Min() * 0.5;
-            _max = _data.Max() * 2.0;
+            Min = DData.Min() * 0.5;
+            Max = DData.Max() * 2.0;
         }
     }
 
@@ -224,14 +269,14 @@ namespace diagram.Common
     {
         public SPM3()
         {
-            _name = "SPM3";
-            _Chinese = "泵冲数3(N/min)";
+            Name = "SPM3";
+            Chinese = "泵冲数3(N/min)";
         }
 
         public override void setSpan()
         {
-            _min = _data.Min() * 0.5;
-            _max = _data.Max() * 2.0;
+            Min = DData.Min() * 0.5;
+            Max = DData.Max() * 2.0;
         }
     }
 
@@ -239,14 +284,14 @@ namespace diagram.Common
     {
         public STANDPRES()
         {
-            _name = "STANDPRES";
-            _Chinese = "立管压力(Mpa)";
+            Name = "STANDPRES";
+            Chinese = "立管压力(Mpa)";
         }
 
         public override void setSpan()
         {
-            _min = _data.Min() * 0.5;
-            _max = _data.Max() * 2.0;
+            Min = DData.Min() * 0.5;
+            Max = DData.Max() * 2.0;
         }
     }
 
@@ -254,14 +299,14 @@ namespace diagram.Common
     {
         public TOTALPIT()
         {
-            _name = "TOTALPIT";
-            _Chinese = "总池体积(m3)";
+            Name = "TOTALPIT";
+            Chinese = "总池体积(m3)";
         }
 
         public override void setSpan()
         {
-            _min = _data.Min() * 0.5;
-            _max = _data.Max() * 2.0;
+            Min = DData.Min() * 0.5;
+            Max = DData.Max() * 2.0;
         }
     }
 
@@ -269,14 +314,14 @@ namespace diagram.Common
     {
         public FLOWIN()
         {
-            _name = "FLOWIN";
-            _Chinese = "入口流量(L/s)";
+            Name = "FLOWIN";
+            Chinese = "入口流量(L/s)";
         }
 
         public override void setSpan()
         {
-            _min = _data.Min() * 0.5;
-            _max = _data.Max() * 2.0;
+            Min = DData.Min() * 0.5;
+            Max = DData.Max() * 2.0;
         }
     }
 
@@ -284,14 +329,14 @@ namespace diagram.Common
     {
         public FLOWOUT()
         {
-            _name = "FLOWOUT";
-            _Chinese = "出口流量(L/s)";
+            Name = "FLOWOUT";
+            Chinese = "出口流量(L/s)";
         }
 
         public override void setSpan()
         {
-            _min = _data.Min() * 0.5;
-            _max = _data.Max() * 2.0;
+            Min = DData.Min() * 0.5;
+            Max = DData.Max() * 2.0;
         }
     }
 
@@ -299,14 +344,14 @@ namespace diagram.Common
     {
         public WEIGHTIN()
         {
-            _name = "WEIGHTIN";
-            _Chinese = "入口密度(g/cm3)";
+            Name = "WEIGHTIN";
+            Chinese = "入口密度(g/cm3)";
         }
 
         public override void setSpan()
         {
-            _min = _data.Min() * 0.5;
-            _max = _data.Max() * 2.0;
+            Min = DData.Min() * 0.5;
+            Max = DData.Max() * 2.0;
         }
     }
 
@@ -314,14 +359,14 @@ namespace diagram.Common
     {
         public WEIGHTOUT()
         {
-            _name = "WEIGHTOUT";
-            _Chinese = "出口密度(g/cm3)";
+            Name = "WEIGHTOUT";
+            Chinese = "出口密度(g/cm3)";
         }
 
         public override void setSpan()
         {
-            _min = _data.Min() * 0.5;
-            _max = _data.Max() * 2.0;
+            Min = DData.Min() * 0.5;
+            Max = DData.Max() * 2.0;
         }
     }
 
@@ -329,14 +374,14 @@ namespace diagram.Common
     {
         public TEMPIN()
         {
-            _name = "TEMPIN";
-            _Chinese = "入口温度(°C)";
+            Name = "TEMPIN";
+            Chinese = "入口温度(°C)";
         }
 
         public override void setSpan()
         {
-            _min = _data.Min() * 0.5;
-            _max = _data.Max() * 2.0;
+            Min = DData.Min() * 0.5;
+            Max = DData.Max() * 2.0;
         }
     }
 
@@ -344,14 +389,14 @@ namespace diagram.Common
     {
         public TEMPOUT()
         {
-            _name = "TEMPOUT";
-            _Chinese = "出口温度(°C)";
+            Name = "TEMPOUT";
+            Chinese = "出口温度(°C)";
         }
 
         public override void setSpan()
         {
-            _min = _data.Min() * 0.5;
-            _max = _data.Max() * 2.0;
+            Min = DData.Min() * 0.5;
+            Max = DData.Max() * 2.0;
         }
     }
 
@@ -359,14 +404,14 @@ namespace diagram.Common
     {
         public CONDIN()
         {
-            _name = "CONDIN";
-            _Chinese = "入口电导(ps/m)";
+            Name = "CONDIN";
+            Chinese = "入口电导(ps/m)";
         }
 
         public override void setSpan()
         {
-            _min = _data.Min() * 0.5;
-            _max = _data.Max() * 2.0;
+            Min = DData.Min() * 0.5;
+            Max = DData.Max() * 2.0;
         }
     }
 
@@ -374,14 +419,14 @@ namespace diagram.Common
     {
         public CONDOUT()
         {
-            _name = "CONDOUT";
-            _Chinese = "出口电导(ps/m)";
+            Name = "CONDOUT";
+            Chinese = "出口电导(ps/m)";
         }
 
         public override void setSpan()
         {
-            _min = _data.Min() * 0.5;
-            _max = _data.Max() * 2.0;
+            Min = DData.Min() * 0.5;
+            Max = DData.Max() * 2.0;
         }
     }
 
@@ -390,14 +435,14 @@ namespace diagram.Common
     {
         public PIT1()
         {
-            _name = "PIT1";
-            _Chinese = "1#池体积(m3)";
+            Name = "PIT1";
+            Chinese = "1#池体积(m3)";
         }
 
         public override void setSpan()
         {
-            _min = _data.Min() * 0.5;
-            _max = _data.Max() * 5.0;
+            Min = DData.Min() * 0.5;
+            Max = DData.Max() * 5.0;
         }
     }
 
@@ -405,14 +450,14 @@ namespace diagram.Common
     {
         public PIT2()
         {
-            _name = "PIT2";
-            _Chinese = "2#池体积(m3)";
+            Name = "PIT2";
+            Chinese = "2#池体积(m3)";
         }
 
         public override void setSpan()
         {
-            _min = _data.Min() * 0.5;
-            _max = _data.Max() * 2.0;
+            Min = DData.Min() * 0.5;
+            Max = DData.Max() * 2.0;
         }
     }
 
@@ -420,14 +465,14 @@ namespace diagram.Common
     {
         public PIT3()
         {
-            _name = "PIT3";
-            _Chinese = "3#池体积(m3)";
+            Name = "PIT3";
+            Chinese = "3#池体积(m3)";
         }
 
         public override void setSpan()
         {
-            _min = _data.Min() * 0.5;
-            _max = _data.Max() * 2.0;
+            Min = DData.Min() * 0.5;
+            Max = DData.Max() * 2.0;
         }
     }
 
@@ -435,14 +480,14 @@ namespace diagram.Common
     {
         public PIT4()
         {
-            _name = "PIT4";
-            _Chinese = "4#池体积(m3)";
+            Name = "PIT4";
+            Chinese = "4#池体积(m3)";
         }
 
         public override void setSpan()
         {
-            _min = _data.Min() * 0.5;
-            _max = _data.Max() * 5.0;
+            Min = DData.Min() * 0.5;
+            Max = DData.Max() * 5.0;
         }
     }
 
@@ -450,14 +495,14 @@ namespace diagram.Common
     {
         public PIT5()
         {
-            _name = "PIT5";
-            _Chinese = "5#池体积(m3)";
+            Name = "PIT5";
+            Chinese = "5#池体积(m3)";
         }
 
         public override void setSpan()
         {
-            _min = _data.Min() * 0.5;
-            _max = _data.Max() * 5.0;
+            Min = DData.Min() * 0.5;
+            Max = DData.Max() * 5.0;
         }
     }
 
@@ -465,14 +510,14 @@ namespace diagram.Common
     {
         public PIT6()
         {
-            _name = "PIT6";
-            _Chinese = "6#池体积(m3)";
+            Name = "PIT6";
+            Chinese = "6#池体积(m3)";
         }
 
         public override void setSpan()
         {
-            _min = _data.Min() * 0.5;
-            _max = _data.Max() * 5.0;
+            Min = DData.Min() * 0.5;
+            Max = DData.Max() * 5.0;
         }
     }
 
@@ -480,14 +525,14 @@ namespace diagram.Common
     {
         public PIT7()
         {
-            _name = "PIT7";
-            _Chinese = "7#池体积(m3)";
+            Name = "PIT7";
+            Chinese = "7#池体积(m3)";
         }
 
         public override void setSpan()
         {
-            _min = _data.Min() * 0.5;
-            _max = _data.Max() * 5.0;
+            Min = DData.Min() * 0.5;
+            Max = DData.Max() * 5.0;
         }
     }
 
@@ -496,14 +541,14 @@ namespace diagram.Common
     {
         public C1()
         {
-            _name = "C1";
-            _Chinese = "C1(%)";
+            Name = "C1";
+            Chinese = "C1(%)";
         }
 
         public override void setSpan()
         {
-            _min = _data.Min() * 0.5;
-            _max = _data.Max() * 5.0;
+            Min = DData.Min() * 0.5;
+            Max = DData.Max() * 5.0;
         }
     }
 
@@ -511,14 +556,14 @@ namespace diagram.Common
     {
         public C2()
         {
-            _name = "C2";
-            _Chinese = "C2(%)";
+            Name = "C2";
+            Chinese = "C2(%)";
         }
 
         public override void setSpan()
         {
-            _min = _data.Min() * 0.5;
-            _max = _data.Max() * 5.0;
+            Min = DData.Min() * 0.5;
+            Max = DData.Max() * 5.0;
         }
     }
 
@@ -526,14 +571,14 @@ namespace diagram.Common
     {
         public CO2()
         {
-            _name = "CO2";
-            _Chinese = "CO2(%)";
+            Name = "CO2";
+            Chinese = "CO2(%)";
         }
 
         public override void setSpan()
         {
-            _min = _data.Min() * 0.5;
-            _max = _data.Max() * 5.0;
+            Min = DData.Min() * 0.5;
+            Max = DData.Max() * 5.0;
         }
     }
 
@@ -541,14 +586,14 @@ namespace diagram.Common
     {
         public TVOLACT()
         {
-            _name = "TVOLACT";
-            _Chinese = "总池体积";
+            Name = "TVOLACT";
+            Chinese = "总池体积";
         }
 
         public override void setSpan()
         {
-            _min = _data.Min() * 0.8;
-            _max = _data.Max() * 1.2;
+            Min = DData.Min() * 0.8;
+            Max = DData.Max() * 1.2;
         }
     }
 
@@ -556,14 +601,14 @@ namespace diagram.Common
     {
         public MFIA()
         {
-            _name = "MFIA";
-            _Chinese = "MFIA";
+            Name = "MFIA";
+            Chinese = "MFIA";
         }
 
         public override void setSpan()
         {
-            _min = _data.Min() * 0.8;
-            _max = _data.Max() * 1.2;
+            Min = DData.Min() * 0.8;
+            Max = DData.Max() * 1.2;
         }
     }
 
@@ -571,14 +616,14 @@ namespace diagram.Common
     {
         public MFOA()
         {
-            _name = "MFOA";
-            _Chinese = "MFOA";
+            Name = "MFOA";
+            Chinese = "MFOA";
         }
 
         public override void setSpan()
         {
-            _min = _data.Min() * 0.8;
-            _max = _data.Max() * 1.2;
+            Min = DData.Min() * 0.8;
+            Max = DData.Max() * 1.2;
         }
     }
 
@@ -586,8 +631,8 @@ namespace diagram.Common
     {
         public TTIME()
         {
-            _name = "TTIME";
-            _Chinese = "TTIME";
+            Name = "TTIME";
+            Chinese = "TTIME";
         }
     }
 
@@ -595,8 +640,8 @@ namespace diagram.Common
     {
         public TDATE()
         {
-            _name = "TDATE";
-            _Chinese = "TDATE";
+            Name = "TDATE";
+            Chinese = "TDATE";
         }
     }
 
@@ -604,8 +649,8 @@ namespace diagram.Common
     {
         public MTOA()
         {
-            _name = "MTOA";
-            _Chinese = "MTOA";
+            Name = "MTOA";
+            Chinese = "MTOA";
         }
     }
 
@@ -613,8 +658,8 @@ namespace diagram.Common
     {
         public MTIA()
         {
-            _name = "MTIA";
-            _Chinese = "MTIA";
+            Name = "MTIA";
+            Chinese = "MTIA";
         }
     }
 
@@ -622,8 +667,8 @@ namespace diagram.Common
     {
         public DXC()
         {
-            _name = "DXC";
-            _Chinese = "DXC";
+            Name = "DXC";
+            Chinese = "DXC";
         }
     }
 

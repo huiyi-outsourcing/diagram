@@ -18,10 +18,28 @@ namespace diagram.DynamicDiagram
         #endregion
 
         #region Properties
-        public int[] pos;
-        public Time[] datetime;
-        public String[] depth;
+        private int[] pos;
+        private Time[] datetime;
+        private String[] depth;
         private Time _firstTime;
+
+        public int[] Pos
+        {
+            get { return pos; }
+            set { pos = value; }
+        }
+
+        public Time[] Datetime
+        {
+            get { return datetime; }
+            set { datetime = value; }
+        }
+
+        public String[] Depth
+        {
+            get { return depth; }
+            set { depth = value; }
+        }
 
         public Time FirstTime
         {

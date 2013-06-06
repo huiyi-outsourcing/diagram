@@ -82,7 +82,7 @@ namespace diagram.StaticDiagram
             _listBox.SelectionMode = SelectionMode.Multiple;
             foreach (Data data in _diagram.Model.DataList)
             {
-                ListBoxItem item = new ListBoxItem() { Content = data._name, Tag = data };
+                ListBoxItem item = new ListBoxItem() { Content = data.Name, Tag = data };
                 _listBox.Items.Add(item);
             }
         }
@@ -104,6 +104,7 @@ namespace diagram.StaticDiagram
                     if (item.IsSelected)
                         list.Add((Data)item.Tag);
                 }
+
                 if (_invoker.GetType() == typeof(Column) || _invoker.GetType() == typeof(ColumnScale))
                 {
                     _diagram.addColumn(_index+1, list);

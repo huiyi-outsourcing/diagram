@@ -92,7 +92,7 @@ namespace diagram.DynamicDiagram
             // Load Interval
             _doc.Load("..\\..\\DynamicDiagram\\DiagramConfig.xml");
             XmlNode xNode = _doc.SelectSingleNode("Diagram/Interval");
-            _interval = Int32.Parse(xNode.InnerText);
+            _interval = Int32.Parse(xNode.InnerText) * 1000;
             xNode = _doc.SelectSingleNode("Diagram/DisplayInterval");
             _DisplayInterval = Int32.Parse(xNode.InnerText);
 
@@ -124,9 +124,9 @@ namespace diagram.DynamicDiagram
                     String name = str[i];
                     foreach (Data d in _dataList)
                     {
-                        if (d._name == name)
+                        if (d.Name == name)
                         {
-                            d._defaultColumnPos.Add(loop + 1);
+                            d.DefaultColumnPos.Add(loop + 1);
                             break;
                         }
                     }
@@ -145,6 +145,33 @@ namespace diagram.DynamicDiagram
 
             _TDATE.getDataString(ds);
             _TTIME.getDataString(ds);
+        }
+
+        public void saveDataConfig(List<Column> columns)
+        {
+            XmlDocument doc = _doc;
+            XmlNode root = doc.DocumentElement;
+            XmlNodeList nodeList = root.ChildNodes;
+
+            // 保存默认列
+            root = nodeList[1];
+            root.RemoveAll();
+
+            List<Data> list = _dataList;
+            for (int i = 0; i < columns.Count; ++i)
+            {
+                ColumnHeader header = columns.ElementAt(i).Header;
+                List<ColumnHeaderData> data = header.Data;
+
+                XmlElement xe = doc.CreateElement("Column");
+                xe.InnerText = data.ElementAt(0).Data.Name;
+                for (int j = 1; j < data.Count; ++j)
+                {
+                    xe.InnerText += "," + data.ElementAt(j).Data.Name;
+                }
+                root.AppendChild(xe);
+            }
+            doc.Save(_filepath);
         }
         #endregion
     }

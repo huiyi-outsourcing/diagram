@@ -53,8 +53,8 @@ namespace diagram.StaticDiagram
 
         public void setData(String min, String max)
         {
-            _data._min = Double.Parse(min);
-            _data._max = Double.Parse(max);
+            _data.Min = Double.Parse(min);
+            _data.Max = Double.Parse(max);
             _lblmin.Content = min;
             _lblmax.Content = max;
         }
@@ -64,20 +64,20 @@ namespace diagram.StaticDiagram
             _data = data;
 
             _lblname = new Label();
-            _lblname.Content = _data._Chinese;
+            _lblname.Content = _data.Chinese;
             _lblname.HorizontalAlignment = HorizontalAlignment.Center;
             _lblname.VerticalAlignment = VerticalAlignment.Center;
             _lblname.FontSize = 12;
             _lblname.Foreground = Brushes.LightBlue;
 
             _lblmin = new Label();
-            _lblmin.Content = _data._min.ToString();
+            _lblmin.Content = Math.Round(_data.Min, 2).ToString();
             _lblmin.HorizontalAlignment = HorizontalAlignment.Center;
             _lblmin.VerticalAlignment = VerticalAlignment.Center;
             _lblmin.FontSize = 10;
 
             _lblmax = new Label();
-            _lblmax.Content = _data._max.ToString();
+            _lblmax.Content = Math.Round(_data.Max, 2).ToString();
             _lblmax.HorizontalAlignment = HorizontalAlignment.Center;
             _lblmax.VerticalAlignment = VerticalAlignment.Center;
             _lblmax.FontSize = 10;
@@ -85,8 +85,8 @@ namespace diagram.StaticDiagram
 
         public void adjustLabel()
         {
-            _lblmin.Content = _data._min.ToString();
-            _lblmax.Content = _data._max.ToString();
+            _lblmin.Content = _data.Min.ToString();
+            _lblmax.Content = _data.Max.ToString();
         }
     }
 }

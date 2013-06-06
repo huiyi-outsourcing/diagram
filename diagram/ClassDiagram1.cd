@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="diagram.DynamicDiagram.DataModel">
+    <Position X="0.5" Y="0.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQgAAAAAAAEAAAAIAiQAEEDAAACACEBQQAAIAAAIA=</HashCode>
+      <FileName>DynamicDiagram\DataModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="diagram.StaticDiagram.DataModel">
+    <Position X="4.25" Y="0.5" Width="3.25" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>ACAAgBAAAAAAABAAAABCQAAACgAACAAEAAQAAAAAAIA=</HashCode>
+      <FileName>StaticDiagram\DataModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="微软雅黑" Size="9" />
+</ClassDiagram>

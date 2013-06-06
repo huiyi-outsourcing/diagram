@@ -13,7 +13,9 @@
     <minheight>100</minheight>
   </ColumnHeader>
 
+  <!-- Define by minute-->
   <DisplayInterval>300</DisplayInterval>
  
-  <Interval>5</Interval>
+  <!-- Define by second -->
+  <Interval>2</Interval>
 </Diagram>

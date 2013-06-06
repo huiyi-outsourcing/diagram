@@ -118,7 +118,7 @@ namespace diagram.StaticDiagram
         {
             _menu = new ContextMenu();
             MenuItem add = new MenuItem() { Header = "在右添加一列" };
-            add.Click += new RoutedEventHandler(addColumnToTheLeft);
+            add.Click += new RoutedEventHandler(addColumnToTheRight);
             MenuItem alter = new MenuItem() { Header = "变更.." };
             alter.Click += new RoutedEventHandler(alterColumn);
             alter.Tag = this;
@@ -139,7 +139,7 @@ namespace diagram.StaticDiagram
         #endregion
 
         #region 路由事件
-        private void addColumnToTheLeft(object sender, RoutedEventArgs args)
+        private void addColumnToTheRight(object sender, RoutedEventArgs args)
         {
             StackPanel panel = this.Parent as StackPanel;
             StaticDiagram diagram = panel.Parent as StaticDiagram;
@@ -171,6 +171,11 @@ namespace diagram.StaticDiagram
             this.RaiseEvent(save);
         }
 
+        public void repaint(object sender, RoutedEventArgs args)
+        {
+            drawGraphics();
+        }
+
         // 注册路由事件
         public static readonly RoutedEvent saveConfigEvent = EventManager.RegisterRoutedEvent
             ("saveConfigEvent", RoutingStrategy.Bubble, typeof(EventHandler<saveEventArgs>), typeof(Column));
@@ -188,11 +193,6 @@ namespace diagram.StaticDiagram
             _body.repaint(width);
         }
 
-        public void repaint(object sender, RoutedEventArgs args)
-        {
-            drawGraphics();
-        }
-
         public void drawGraphics()
         {
             List<ColumnHeaderData> list = _header.Data;
@@ -200,10 +200,10 @@ namespace diagram.StaticDiagram
             for (int i = 0; i < list.Count; ++i)
             {
                 ColumnHeaderData c = list.ElementAt(i);
-                List<double> data = c.Data._data;
+                List<double> data = c.Data.DData;
 
-                double min = c.Data._min;
-                double max = c.Data._max;
+                double min = c.Data.Min;
+                double max = c.Data.Max;
 
                 if (max == min)
                 {
@@ -212,7 +212,7 @@ namespace diagram.StaticDiagram
                 
                 double span = max - min;
 
-                double Dmin = _model.DEPTMEAS._data.Min();
+                double Dmin = _model.DEPTMEAS.DData.Min();
 
                 for (int n = 0; n < data.Count-1; ++n)
                 {
@@ -227,32 +227,32 @@ namespace diagram.StaticDiagram
 
         private double getDEPTMEAS(int i)
         {
-            return _model.DEPTMEAS._data.ElementAt(i);
+            return _model.DEPTMEAS.DData.ElementAt(i);
         }
 
-        public void addGraphics(int startIndex)
-        {
-            List<ColumnHeaderData> list = _header.Data;
+        //public void addGraphics(int startIndex)
+        //{
+        //    List<ColumnHeaderData> list = _header.Data;
 
-            for (int i = 0; i < list.Count; ++i)
-            {
-                ColumnHeaderData c = list.ElementAt(i);
-                List<double> data = c.Data._data;
+        //    for (int i = 0; i < list.Count; ++i)
+        //    {
+        //        ColumnHeaderData c = list.ElementAt(i);
+        //        List<double> data = c.Data._data;
 
-                double min = c.Data._min;
-                double max = c.Data._max;
-                double span = max - min;
+        //        double min = c.Data._min;
+        //        double max = c.Data._max;
+        //        double span = max - min;
 
-                for (int n = startIndex; n < data.Count-1; ++n)
-                {
-                    Line line = new Line() { X1 = (data.ElementAt(n) - min) * this._body.Width / span, Y1 = (n) / _scale, X2 = (data.ElementAt(n + 1) - min) * this._body.Width / span, Y2 = (n + 1) / _scale };
-                    line.Stroke = colors[i];
-                    line.StrokeThickness = 0.8;
+        //        for (int n = startIndex; n < data.Count-1; ++n)
+        //        {
+        //            Line line = new Line() { X1 = (data.ElementAt(n) - min) * this._body.Width / span, Y1 = (n) / _scale, X2 = (data.ElementAt(n + 1) - min) * this._body.Width / span, Y2 = (n + 1) / _scale };
+        //            line.Stroke = colors[i];
+        //            line.StrokeThickness = 0.8;
 
-                    _body.Children.Add(line);
-                }
-            }
-        }
+        //            _body.Children.Add(line);
+        //        }
+        //    }
+        //}
         #endregion
     }
 

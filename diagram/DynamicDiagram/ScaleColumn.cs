@@ -183,9 +183,9 @@ namespace diagram.DynamicDiagram
             for (int i = 1; i < 3; ++i)
             {
                 TextBlock block = new TextBlock();
-                block.Text = data.datetime[i - 1].ToDateString() + "\n"
-                    + data.datetime[i-1].ToTimeString() + "\n"
-                    +Math.Round(Convert.ToDouble(data.depth[i - 1].ToString()),2)+"(m)";
+                block.Text = data.Datetime[i - 1].ToDateString() + "\n"
+                    + data.Datetime[i-1].ToTimeString() + "\n"
+                    +Math.Round(Convert.ToDouble(data.Depth[i - 1].ToString()),2)+"(m)";
 
                 block.Foreground = Brushes.Red;
 

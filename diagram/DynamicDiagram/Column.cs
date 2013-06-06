@@ -206,10 +206,10 @@ namespace diagram.DynamicDiagram
             for (int ii = 0; ii < list.Count; ++ii)
             {
                 ColumnHeaderData c = list.ElementAt(ii);
-                List<double> data = c.Data._data;
+                List<double> data = c.Data.DData;
 
-                double min = c.Data._min;
-                double max = c.Data._max;
+                double min = c.Data.Min;
+                double max = c.Data.Max;
 
                 if(max==min)
                 {
@@ -225,17 +225,17 @@ namespace diagram.DynamicDiagram
 
                 Time ROOT = sData.FirstTime;
 
-                int rowInterval = sData.datetime[0].getdiff(sData.datetime[2]) / 3;
+                int rowInterval = sData.Datetime[0].getdiff(sData.Datetime[2]) / 3;
 
                 for (int i = 0; i < 3; ++ i)
                 {
-                    for (int j = i==0 ? 0 : sData.pos[i-1]; j < sData.pos[i]; ++j)
+                    for (int j = i==0 ? 0 : sData.Pos[i-1]; j < sData.Pos[i]; ++j)
                     {
-                        Time first = new Time(_model.TDATE._StringData.ElementAt(j).ToString(),
-                                              _model.TTIME._StringData.ElementAt(j).ToString());
+                        Time first = new Time(_model.TDATE.StringData.ElementAt(j).ToString(),
+                                              _model.TTIME.StringData.ElementAt(j).ToString());
 
-                        Time second = new Time(_model.TDATE._StringData.ElementAt(j + 1).ToString(),
-                                              _model.TTIME._StringData.ElementAt(j + 1).ToString());
+                        Time second = new Time(_model.TDATE.StringData.ElementAt(j + 1).ToString(),
+                                              _model.TTIME.StringData.ElementAt(j + 1).ToString());
                         int interval = first.getdiff(second);
 
                         Line line = new Line()
@@ -247,9 +247,6 @@ namespace diagram.DynamicDiagram
                             Stroke = colors[ii],
                             StrokeThickness = 0.8
                         };
-
-                        double k1 = ROOT.getdiff(first);
-                        double k2 = ROOT.getdiff(second);
 
                         _body.Children.Add(line);
                     }
