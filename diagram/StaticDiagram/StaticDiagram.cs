@@ -31,7 +31,10 @@ namespace diagram.StaticDiagram
         { BIG = 400, MIDDLE = 300, SMALL = 200 };
         private double _width;          // ScrollViewer的宽度
         private int _colWidth;
-        private int _height;
+
+        private int _bodyHeight;
+        private int _headerHeight;
+        private int _showHeight;
 
         public DataModel Model
         {
@@ -45,17 +48,29 @@ namespace diagram.StaticDiagram
             set { _columns = value; }
         }
 
-        public StaticDiagram(double width, DataModel model)
+        public StaticDiagram(double width, DataModel model, String path)
         {
-            initializeData(width, model);
+            initializeData(width, model, path);
             initializeGraphics();
             initializeHandler();
         }
         #endregion
 
         #region Constructor
-        private void initializeData(double width, DataModel model)
+        private void initializeData(double width, DataModel model, String path)
         {
+            // 初始化图形属性
+            XmlDocument doc = new XmlDocument();
+            doc.Load(path);
+
+            XmlNode node = doc.SelectSingleNode("Diagram/ColumnHeader/Height");
+            _headerHeight = Int32.Parse(node.InnerText);
+            node = doc.SelectSingleNode("Diagram/ColumnBody/CanvasHeight");
+            _bodyHeight = Int32.Parse(node.InnerText);
+            node = doc.SelectSingleNode("Diagram/ScaleColumn/ShowHeight");
+            _showHeight = Int32.Parse(node.InnerText);
+
+            // 初始化数据元素
             _width = width;
             _colWidth = adjustColumnWidth(width, model.DefaultColumnNumber); 
             _model = model;
@@ -79,12 +94,11 @@ namespace diagram.StaticDiagram
                 }
             }
 
-            _scale = new ColumnScale(_model.DEPTMEAS.Min, _model.DEPTMEAS.Max, _colWidth);
+            _scale = new ColumnScale(_model.DEPTMEAS.Min, _model.DEPTMEAS.Max, _colWidth, _showHeight, _headerHeight, _bodyHeight);
             _panel.Children.Add(_scale);
-            _height = _scale.CanvasHeight;
             for (int i = 0; i < _model.DefaultColumnNumber; ++i)
             {
-                Column c = new Column(_colWidth, _height, list.ElementAt(i), _model.DEPTMEAS.DData.Min(), _model.DEPTMEAS.DData.Max(), _scale.Scale, _model);
+                Column c = new Column(_colWidth, _headerHeight, _bodyHeight, list.ElementAt(i), _model.DEPTMEAS.DData.Min(), _model.DEPTMEAS.DData.Max(), _scale.Scale, _model);
                 _columns.Add(c);
                 _panel.Children.Add(c);
             }
@@ -106,13 +120,14 @@ namespace diagram.StaticDiagram
         {
             this.AddHandler(Column.delColumnEvent, new RoutedEventHandler(delColumn));
             this.AddHandler(Column.saveConfigEvent, new RoutedEventHandler(saveDataConfig));
+            this.AddHandler(Column.saveGraphicsEvent, new RoutedEventHandler(saveGraphicsConfig));
         }
         #endregion 
 
         #region Event Handling Methods
         public void addColumn(int pos, List<Data> list)
         {
-            Column c = new Column(_colWidth, _height, list, _model.DEPTMEAS.DData.Min(), _model.DEPTMEAS.DData.Max(), _scale.Scale, _model);
+            Column c = new Column(_colWidth, _headerHeight, _bodyHeight, list, _model.DEPTMEAS.DData.Min(), _model.DEPTMEAS.DData.Max(), _scale.Scale, _model);
             _columns.Insert(pos-1, c);
             _panel.Children.Insert(pos, c);
             adjustGraphics();
@@ -130,6 +145,11 @@ namespace diagram.StaticDiagram
         public void saveDataConfig(object sender, RoutedEventArgs args)
         {
             _model.saveDataConfig(_columns);
+        }
+
+        private void saveGraphicsConfig(object sender, RoutedEventArgs args)
+        { 
+            
         }
 
         private void adjustGraphics()

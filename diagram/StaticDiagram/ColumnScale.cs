@@ -18,7 +18,7 @@ namespace diagram.StaticDiagram
 {
     public class ColumnScale : Grid
     {
-        #region properties
+        #region Properties
         private double _minDepth;
         private double _maxDepth;
         private double _scale;              // 刻度
@@ -26,6 +26,7 @@ namespace diagram.StaticDiagram
         private double _colWidth;              // 数据显示列的宽度
         private int _width = 60;            // 自身宽度
         private int _headerHeight;          // 表头的高度
+        private int _showHeight;            // 显示井深高度
 
         private Canvas _canvas;
         private ContextMenu _menu;
@@ -43,9 +44,9 @@ namespace diagram.StaticDiagram
         }
         #endregion
 
-        public ColumnScale(double minDepth, double maxDepth, int colWidth)
+        public ColumnScale(double minDepth, double maxDepth, int colWidth, int showHeight, int headerHeight, int bodyHeight)
         {
-            initializeData(minDepth, maxDepth, colWidth);
+            initializeData(minDepth, maxDepth, colWidth, showHeight, headerHeight, bodyHeight);
             adjustScale();
             initializeGraphics();
             initializeContextMenu();
@@ -72,14 +73,11 @@ namespace diagram.StaticDiagram
         }
 
         #region 初始化
-        private void initializeData(double minDepth, double maxDepth, int colWidth)
+        private void initializeData(double minDepth, double maxDepth, int colWidth, int showHeight, int headerHeight, int bodyHeight)
         {
-            XmlDocument xml = new XmlDocument();
-            xml.Load("..\\..\\StaticDiagram\\DiagramConfig.xml");
-            XmlNode node = xml.SelectSingleNode("Diagram/ColumnBody/canvasheight");
-            _canvasHeight = Int32.Parse(node.InnerText);
-            node = xml.SelectSingleNode("Diagram/ColumnHeader/height");
-            _headerHeight = Int32.Parse(node.InnerText);
+            _canvasHeight = bodyHeight;
+            _headerHeight = headerHeight;
+            _showHeight = showHeight;
 
             _minDepth = minDepth;
             _maxDepth = maxDepth;
@@ -222,8 +220,8 @@ namespace diagram.StaticDiagram
         #region 调整Canvas高度、自动生成Scale
         private void adjustScale()
         {
-            double range = _maxDepth - _minDepth;
-            _scale = range * 1.0 / _canvasHeight;
+            //double range = _maxDepth - _minDepth;
+            _scale = _showHeight * 1.0 / _canvasHeight;
         }
         #endregion
     }

@@ -34,6 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\..\..\..\Program Files (x86)\TestDriven.NET 3\NUnit\2.6\framework\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Forms" />
@@ -55,6 +58,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Common\SQLconninfo.cs" />
+    <Compile Include="DynamicDiagram\ChangeIntervalWindow.xaml.cs">
+      <DependentUpon>ChangeIntervalWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="StaticDiagram\DataModel.cs" />
     <Compile Include="DynamicDiagram\AlterColumnWindow.cs" />
     <Compile Include="DynamicDiagram\ChooseColumnWindow.cs" />
@@ -77,6 +83,10 @@
     <Compile Include="StaticDiagram\ColumnScale.cs" />
     <Compile Include="Common\Data.cs" />
     <Compile Include="StaticDiagram\StaticDiagram.cs" />
+    <Page Include="DynamicDiagram\ChangeIntervalWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -112,7 +122,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -124,9 +133,13 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="StaticDiagram\DataConfig.xml" />
-    <Resource Include="StaticDiagram\DiagramConfig.xml" />
+    <Resource Include="StaticDiagram\DiagramConfig.xml">
+      <SubType>Designer</SubType>
+    </Resource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="DynamicDiagram\DiagramConfig.xml">
       <SubType>Designer</SubType>

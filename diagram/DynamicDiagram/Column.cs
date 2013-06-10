@@ -20,10 +20,10 @@ namespace diagram.DynamicDiagram
     public class Column : Grid
     {
         #region Constructor
-        public Column(double width, int height, List<Data> datalist, DataModel model)
+        public Column(double width, int headerHeight, int bodyHeight, List<Data> datalist, DataModel model)
         {
             _model = model;
-            initializeData(width, height, datalist);
+            initializeData(width, headerHeight, bodyHeight, datalist);
             initializeGraphics();
             initializeContextMenu();
         }
@@ -75,7 +75,7 @@ namespace diagram.DynamicDiagram
         #endregion
 
         #region Initialization
-        private void initializeData(double width, int height, List<Data> datalist)
+        private void initializeData(double width, int headerHeight, int bodyHeight, List<Data> datalist)
         {
             List<ColumnHeaderData> list = new List<ColumnHeaderData>();
             foreach (Data data in datalist)
@@ -83,8 +83,8 @@ namespace diagram.DynamicDiagram
                 list.Add(new ColumnHeaderData(data));
             }
 
-            _header = new ColumnHeader(list);
-            _body = new ColumnBody(width, height);
+            _header = new ColumnHeader(list, headerHeight);
+            _body = new ColumnBody(width, bodyHeight);
 
             XmlDocument xml = new XmlDocument();
             xml.Load("..\\..\\DynamicDiagram\\DiagramConfig.xml");
@@ -201,10 +201,12 @@ namespace diagram.DynamicDiagram
 
         public void drawGraphics(ScaleData sData)
         {
+            // 获取本列中的所有数据
             List<ColumnHeaderData> list = _header.Data;
 
             for (int ii = 0; ii < list.Count; ++ii)
             {
+                // 获取单项数据
                 ColumnHeaderData c = list.ElementAt(ii);
                 List<double> data = c.Data.DData;
 
@@ -225,7 +227,7 @@ namespace diagram.DynamicDiagram
 
                 Time ROOT = sData.FirstTime;
 
-                int rowInterval = sData.Datetime[0].getdiff(sData.Datetime[2]) / 3;
+                int rowInterval = sData.Datetime[0].Getdiff(sData.Datetime[2]) / 3;
 
                 for (int i = 0; i < 3; ++ i)
                 {
@@ -236,14 +238,14 @@ namespace diagram.DynamicDiagram
 
                         Time second = new Time(_model.TDATE.StringData.ElementAt(j + 1).ToString(),
                                               _model.TTIME.StringData.ElementAt(j + 1).ToString());
-                        int interval = first.getdiff(second);
+                        int interval = first.Getdiff(second);
 
                         Line line = new Line()
                         {
                             X1 = (data.ElementAt(j) - min) * this._body.Width / span,
-                            Y1 = (ROOT.getdiff(first)) * 1.0 / rowInterval * scale,
+                            Y1 = (ROOT.Getdiff(first)) * 1.0 / rowInterval * scale,
                             X2 = (data.ElementAt(j+1) - min) * this._body.Width / span,
-                            Y2 = (ROOT.getdiff(second)) * 1.0 / rowInterval * scale,
+                            Y2 = (ROOT.Getdiff(second)) * 1.0 / rowInterval * scale,
                             Stroke = colors[ii],
                             StrokeThickness = 0.8
                         };

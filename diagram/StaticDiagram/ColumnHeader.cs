@@ -18,6 +18,7 @@ namespace diagram.StaticDiagram
 {
     class ColumnHeader : Grid
     {
+        #region Properties
         // 数据元素
         private List<ColumnHeaderData> _data;          // 存储表头数据
 
@@ -25,22 +26,30 @@ namespace diagram.StaticDiagram
         private Border _border;
         private readonly Brush _brush = Brushes.LightBlue;
         private readonly int _ColumnNum = 3;                             // 列数
-        private int _minHeight;                                         // 表头最小高度
         private int _defaultHeight;                                     // 默认高度
+
+        public int DefaultHeight
+        {
+            get { return _defaultHeight; }
+            set { _defaultHeight = value; }
+        }
         
         public List<ColumnHeaderData> Data
         {
           get { return _data; }
           set { _data = value; }
         }
+        #endregion
 
-        public ColumnHeader(List<ColumnHeaderData> datalist)
+        #region Constructor
+        public ColumnHeader(List<ColumnHeaderData> datalist, int headerHeight)
         {
-            initializeData(datalist);
+            initializeData(datalist, headerHeight);
             initializeGraphics();
         }
+        #endregion
 
-        #region 初始化
+        #region Initialization
         private void initializeGraphics()
         {
             if (_data != null)
@@ -56,7 +65,7 @@ namespace diagram.StaticDiagram
                 this.ColumnDefinitions.Add(cdleft);
                 this.ColumnDefinitions.Add(cdcenter);
                 this.ColumnDefinitions.Add(cdright);
-                this.RowDefinitions.Add(new RowDefinition() { MinHeight = _minHeight, MaxHeight = _defaultHeight });
+                this.RowDefinitions.Add(new RowDefinition() { Height = new GridLength((double)_defaultHeight) });
 
                 addLabel();
             }
@@ -98,22 +107,18 @@ namespace diagram.StaticDiagram
             }
         }
 
-        private void initializeData(List<ColumnHeaderData> datalist)
+        private void initializeData(List<ColumnHeaderData> datalist, int headerHeight)
         {
             _data = datalist;
-
-            XmlDocument xml = new XmlDocument();
-            xml.Load("..\\..\\StaticDiagram\\DiagramConfig.xml");
-            XmlNode node = xml.SelectSingleNode("Diagram/ColumnHeader/height");
-            _defaultHeight = Int32.Parse(node.InnerText);
-            node = xml.SelectSingleNode("Diagram/ColumnHeader/minheight");
-            _minHeight = Int32.Parse(node.InnerText);
+            _defaultHeight = headerHeight;
         }
         #endregion
 
+        #region Methods
         public void adujustGraphics(int width)
         {
             this.Width = width;
         }
+        #endregion
     }
 }

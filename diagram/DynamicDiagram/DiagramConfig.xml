@@ -1,21 +1,17 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Diagram>
   <Column>
-    <minwidth>150</minwidth> 
+    <minwidth>150</minwidth>
   </Column>
-  
   <ColumnBody>
-    <canvasheight>660</canvasheight>
+    <CanvasHeight>660</CanvasHeight>
   </ColumnBody>
-  
   <ColumnHeader>
-    <height>100</height>
+    <Height>100</Height>
     <minheight>100</minheight>
   </ColumnHeader>
-
   <!-- Define by minute-->
   <DisplayInterval>300</DisplayInterval>
- 
   <!-- Define by second -->
-  <Interval>2</Interval>
+  <Interval>3</Interval>
 </Diagram>

@@ -178,9 +178,10 @@ namespace diagram.StaticDiagram
                 list.Add(headerData);
             }
 
+            int headerHeight = _column.Header.DefaultHeight;
             _column.Children.Remove(_column.Header);
             _column.Children.Remove(_column.Body);
-            _column.Header = new ColumnHeader(list);
+            _column.Header = new ColumnHeader(list, headerHeight);
             _column.initializeHeader();
             _column.Body.Children.RemoveRange(0, _column.Body.Children.Count);
             _column.Body = new ColumnBody(Convert.ToInt32(_column.Body.Width), Convert.ToInt32(_column.Body.Height));

@@ -5,11 +5,14 @@
   </Column>
   
   <ColumnBody>
-    <canvasheight>1000</canvasheight>
+    <CanvasHeight>1000</CanvasHeight>
   </ColumnBody>
   
   <ColumnHeader>
-    <height>100</height>
-    <minheight>100</minheight>
+    <Height>100</Height>
   </ColumnHeader>
+
+  <ScaleColumn>
+    <ShowHeight>698</ShowHeight>
+  </ScaleColumn>
 </Diagram>

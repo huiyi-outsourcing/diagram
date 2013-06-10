@@ -19,9 +19,9 @@ namespace diagram.DynamicDiagram
     public class ColumnHeader : Grid
     {
         #region Constructor
-        public ColumnHeader(List<ColumnHeaderData> datalist)
+        public ColumnHeader(List<ColumnHeaderData> datalist, int headerHeight)
         {
-            initializeData(datalist);
+            initializeData(datalist, headerHeight);
             initializeGraphics();
         }
         #endregion
@@ -36,6 +36,12 @@ namespace diagram.DynamicDiagram
         private readonly int _ColumnNum = 3;                             // 列数
         private int _minHeight;                                         // 表头最小高度
         private int _defaultHeight;                                     // 默认高度
+
+        public int DefaultHeight
+        {
+            get { return _defaultHeight; }
+            set { _defaultHeight = value; }
+        }
 
         public List<ColumnHeaderData> Data
         {
@@ -60,7 +66,7 @@ namespace diagram.DynamicDiagram
                 this.ColumnDefinitions.Add(cdleft);
                 this.ColumnDefinitions.Add(cdcenter);
                 this.ColumnDefinitions.Add(cdright);
-                this.RowDefinitions.Add(new RowDefinition() { MinHeight = _minHeight, MaxHeight = _defaultHeight });
+                this.RowDefinitions.Add(new RowDefinition() { Height = new GridLength((double)_defaultHeight) });
 
                 addLabel();
             }
@@ -68,7 +74,7 @@ namespace diagram.DynamicDiagram
             // 绘制边框
             _border = new Border();
             _border.BorderBrush = _brush;
-            _border.BorderThickness = new Thickness(1);
+            _border.BorderThickness = new Thickness(0.8);
             if (_data != null)
             {
                 Grid.SetColumnSpan(_border, _ColumnNum);
@@ -102,16 +108,10 @@ namespace diagram.DynamicDiagram
             }
         }
 
-        private void initializeData(List<ColumnHeaderData> datalist)
+        private void initializeData(List<ColumnHeaderData> datalist, int headerHeight)
         {
             _data = datalist;
-            
-            XmlDocument xml = new XmlDocument();
-            xml.Load("..\\..\\DynamicDiagram\\DiagramConfig.xml");
-            XmlNode node = xml.SelectSingleNode("Diagram/ColumnHeader/height");
-            _defaultHeight = Int32.Parse(node.InnerText);
-            node = xml.SelectSingleNode("Diagram/ColumnHeader/minheight");
-            _minHeight = Int32.Parse(node.InnerText);
+            _defaultHeight = headerHeight;
         }
         #endregion
 

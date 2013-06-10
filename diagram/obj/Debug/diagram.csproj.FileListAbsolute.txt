@@ -13,3 +13,7 @@ C:\Users\Smile\Desktop\diagram\diagram\obj\Debug\diagram.exe
 C:\Users\Smile\Desktop\diagram\diagram\obj\Debug\diagram.pdb
 C:\Users\Smile\Desktop\diagram\diagram\obj\Debug\StaticDiagram\ChangeScaleWindow.baml
 C:\Users\Smile\Desktop\diagram\diagram\obj\Debug\StaticDiagram\ChangeScaleWindow.g.cs
+C:\Users\Smile\Desktop\diagram\diagram\bin\Debug\nunit.framework.dll
+C:\Users\Smile\Desktop\diagram\diagram\bin\Debug\nunit.framework.xml
+C:\Users\Smile\Desktop\diagram\diagram\obj\Debug\DynamicDiagram\ChangeIntervalWindow.baml
+C:\Users\Smile\Desktop\diagram\diagram\obj\Debug\DynamicDiagram\ChangeIntervalWindow.g.cs

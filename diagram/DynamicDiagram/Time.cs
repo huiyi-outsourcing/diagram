@@ -3,12 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NUnit.Framework;
 
 namespace diagram.DynamicDiagram
 {
     public class Time
     {
         #region Constructor
+        public Time()
+        { 
+        
+        }
+
         public Time(int year, int month, int day, int hour, int minute, int second)
         {
             this.year = year;
@@ -46,24 +52,24 @@ namespace diagram.DynamicDiagram
         #endregion
 
         #region Methods
-
-        public int getdiff(Time time)
+        public int Getdiff(Time time)
         {
             int diff = 0;
 
             if (time.day != day)
             {
-                diff = hour * 60 * 60 - (24 + time.hour) * 60 * 60 + minute * 60 - time.minute * 60 + second - time.second;
+                diff = (hour - time.hour + 24) * 3600 + (minute - time.minute) * 60 + second - time.second;
+                //diff = hour * 60 * 60 - (24 + time.hour) * 60 * 60 + minute * 60 - time.minute * 60 + second - time.second;
             }
             else
             {
-                diff = day * 24 * 60 * 60 - time.day * 24 * 60 * 60 + hour * 60 * 60 - time.hour * 60 * 60 + minute * 60 - time.minute * 60 + second - time.second;
+                diff = (day - time.day) * 24 * 60 * 60  + (hour - time.hour) * 60 * 60 + (minute - time.minute) * 60 + second - time.second;
             }
 
             return diff;
         }
 
-        public int get_diff_by_minute(Time time)
+        public int GetDiffByMinute(Time time)
         {
             int diff = 0;
 
@@ -85,7 +91,7 @@ namespace diagram.DynamicDiagram
             return year + "/" + month + "/" + day + "/r/n   " + hour + ":" + minute + ":" + second;
         }
 
-        public Time subtractHours(int Interval)
+        public Time SubtractHours(int Interval)
         {
             Time past = new Time(this.year, this.month, this.day, this.hour, this.minute, this.second);
 
@@ -121,7 +127,7 @@ namespace diagram.DynamicDiagram
             return past;
         }
 
-        public Time subtractMinutes(int Interval)
+        public Time SubtractMinutes(int Interval)
         {
             Time past = new Time(this.year, this.month, this.day, this.hour, this.minute, this.second);
 
@@ -173,6 +179,69 @@ namespace diagram.DynamicDiagram
             string ss = second >= 10 ? (second).ToString() : ("0" + second);
 
             return hs + ":" + ms + ":" + ss;
+        }
+        #endregion
+
+        #region Tests
+        [Test]
+        public void TestGetDiff()
+        {
+            // 基础测试
+            Time t1 = new Time(2000, 1, 1, 0, 0, 0);
+            Time t2 = new Time(2000, 1, 1, 0, 3, 1);
+            Assert.AreEqual(181, t2.Getdiff(t1));
+
+            // 当日期变更时的测试
+            t1 = new Time(2000, 1, 1, 23, 59, 50);
+            t2 = new Time(2000, 1, 2, 0, 1, 20);
+            Assert.AreEqual(90, t2.Getdiff(t1));
+
+            // 当月变更时的测试
+            t1 = new Time(2000, 1, 31, 23, 58, 40);
+            t2 = new Time(2000, 2, 1, 0, 4, 30);
+            Assert.AreEqual(350, t2.Getdiff(t1));
+
+            // 当年变更时的测试
+            t1 = new Time(2000, 12, 31, 23, 59, 50);
+            t2 = new Time(2001, 1, 1, 0, 3, 5);
+            Assert.AreEqual(195, t2.Getdiff(t1));
+        }
+
+        [Test]
+        public void TestGetDiffByMinute()
+        {
+            Time t1 = new Time(2000, 1, 1, 0, 3, 0);
+            Time t2 = new Time(2000, 1, 1, 0, 5, 3);
+            Assert.AreEqual(2, t2.GetDiffByMinute(t1));
+
+            t1 = new Time(2000, 1, 1, 23, 59, 3);
+            t2 = new Time(2000, 1, 2, 1, 6, 5);
+            Assert.AreEqual(67, t2.GetDiffByMinute(t1));
+        }
+
+        [Test]
+        public void TestSubtractMinutes()
+        {
+            Time t1 = new Time(2000, 1, 2, 1, 1, 3);
+            Time t2 = t1.SubtractMinutes(50);
+            Assert.AreEqual(50, t1.GetDiffByMinute(t2));
+
+            t1 = new Time(2000, 1, 2, 0, 1, 3);
+            t2 = t1.SubtractMinutes(50);
+            Assert.AreEqual(50, t1.GetDiffByMinute(t2));
+        }
+
+        [Test]
+        public void TestSubtractHours()
+        {
+            Time t1 = new Time(2000, 1, 2, 1, 1, 4);
+            Time t2 = t1.SubtractHours(2);
+            Assert.AreEqual(23, t2.hour);
+
+            t1 = new Time(2000, 1, 2, 23, 3, 3);
+            t2 = t1.SubtractHours(24);
+            Assert.AreEqual(23, t2.hour);
+            Assert.AreEqual(1, t2.day);
         }
         #endregion
     }

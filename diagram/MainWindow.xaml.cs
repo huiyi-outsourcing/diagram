@@ -50,7 +50,7 @@ namespace diagram
             else
             {
                 StaticDiagram.DataModel Smodel = new StaticDiagram.DataModel("..\\..\\StaticDiagram\\DataConfig.xml", Sds);
-                StaticDiagram.StaticDiagram diagram = new StaticDiagram.StaticDiagram(900, Smodel);
+                StaticDiagram.StaticDiagram diagram = new StaticDiagram.StaticDiagram(900, Smodel, "..\\..\\StaticDiagram\\DiagramConfig.xml");
                 diagram.drawGraphics();
                 _Sitem.Content = diagram;
                 _control.Items.Add(_Sitem);
@@ -92,7 +92,7 @@ namespace diagram
         private void initializeGraphics()
         {
             Dmodel = new DynamicDiagram.DataModel("..//..//DynamicDiagram//TimeBasedDataConfig.xml", ReceiveDs);
-            Ddiagram = new DynamicDiagram.TimeBasedDynamicDiagram(900, Dmodel);
+            Ddiagram = new DynamicDiagram.TimeBasedDynamicDiagram(900, Dmodel, "..//..//Dynamicdiagram//DiagramConfig.xml");
             data = new DynamicDiagram.ScaleData();
 
             Ddiagram.startDynamicDrawing(DRconn, "WS_Drilling_Depth_Based", "龙109井", "主井眼", data);

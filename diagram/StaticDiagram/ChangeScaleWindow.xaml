@@ -3,8 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="ChangeScaleWindow" Height="138.806" Width="402.985">
     <Grid Margin="0,0,0,203">
-        <Label Content="显示井深" HorizontalAlignment="Left" Height="40" Margin="11,10,0,-50" VerticalAlignment="Top" FontSize="25"/>
-        <TextBox Name="scaleBox" HorizontalAlignment="Left" Height="40" Margin="126,10,0,-50" TextWrapping="Wrap" VerticalAlignment="Top" Width="251" RenderTransformOrigin="0.499,-0.231" FontSize="25"/>
-        <Button Content="确定" HorizontalAlignment="Left" Height="37" Margin="298,55,0,-92" VerticalAlignment="Top" Width="79" Click="Button_Click_1"/>
+        <Label Content="显示井深" HorizontalAlignment="Left" Height="30" Margin="21,20,0,-50" VerticalAlignment="Top" FontSize="15"/>
+        <TextBox Name="scaleBox" HorizontalAlignment="Left" Height="30" Margin="126,20,0,-50" TextWrapping="Wrap" VerticalAlignment="Top" Width="251" RenderTransformOrigin="0.499,-0.231" FontSize="25"/>
+        <Button Content="确定" HorizontalAlignment="Left" Height="25" Margin="298,65,0,-92" VerticalAlignment="Top" Width="80" Click="Button_Click_1"/>
     </Grid>
 </Window>

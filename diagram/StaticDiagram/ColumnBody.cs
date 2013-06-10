@@ -19,6 +19,12 @@ namespace diagram.StaticDiagram
     class ColumnBody : Canvas
     {
         private int _height;                // canvas的高度
+
+        public int CanvasHeight
+        {
+            get { return _height; }
+            set { _height = value; }
+        }
         private int _width;                 // canvas的宽度
         private DoubleCollection _dc;       // 调整线条间隔等
         private Brush _brush = Brushes.LightBlue;

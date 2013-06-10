@@ -52,8 +52,8 @@ namespace diagram.DynamicDiagram
         public void getTime(Time now, int DisplayInterval)
         {
             datetime[2] = now;
-            datetime[1] = now.subtractMinutes(DisplayInterval / 3);
-            datetime[0] = now.subtractMinutes(DisplayInterval / 3 * 2);
+            datetime[1] = now.SubtractMinutes(DisplayInterval / 3);
+            datetime[0] = now.SubtractMinutes(DisplayInterval / 3 * 2);
         }
         #endregion
     }

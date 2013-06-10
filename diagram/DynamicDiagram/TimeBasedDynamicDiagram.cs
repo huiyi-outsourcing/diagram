@@ -24,9 +24,9 @@ namespace diagram.DynamicDiagram
     public class TimeBasedDynamicDiagram : ScrollViewer
     {
         #region Constructor
-        public TimeBasedDynamicDiagram(double width, DataModel model)
+        public TimeBasedDynamicDiagram(double width, DataModel model, String path)
         {
-            initializeData(width, model);
+            initializeData(width, model, path);
             initializeGraphics();
             initializeHandler();
         }
@@ -38,17 +38,13 @@ namespace diagram.DynamicDiagram
         private DataModel _model;       // 存储所有数据
         private List<Column> _columns;
         private ScaleColumn _scale;
-
-        public ScaleColumn Scale
-        {
-            get { return _scale; }
-            set { _scale = value; }
-        }
+        private String _configPath;
         private enum _ColumnWidth : int
         { BIG = 400, MIDDLE = 300, SMALL = 200 };
         private double _width;          // ScrollViewer的宽度
         private double _colWidth;
-        private int _height;
+        private int _headerHeight;
+        private int _bodyHeight;
 
         public DataModel Model
         {
@@ -61,11 +57,25 @@ namespace diagram.DynamicDiagram
             get { return _columns; }
             set { _columns = value; }
         }
+
+        public ScaleColumn Scale
+        {
+            get { return _scale; }
+            set { _scale = value; }
+        }
         #endregion
 
         #region Initialization
-        private void initializeData(double width, DataModel model)
+        private void initializeData(double width, DataModel model, String path)
         {
+            // 获取图形显示配置
+            _configPath = path;
+            XmlDocument doc = new XmlDocument();
+            doc.Load(_configPath);
+            XmlNode node = doc.SelectSingleNode("Diagram/ColumnBody/CanvasHeight");
+            _bodyHeight = Int32.Parse(node.InnerText);
+            node = doc.SelectSingleNode("Diagram/ColumnHeader/Height");
+            _headerHeight = Int32.Parse(node.InnerText);
             _width = width;
 
             _colWidth = adjustColumnWidth(width, model.DataList.Count);
@@ -88,12 +98,11 @@ namespace diagram.DynamicDiagram
                     list.ElementAt(d.DefaultColumnPos.ElementAt(j) - 1).Add(d);
             }
 
-            _scale = new ScaleColumn(_colWidth);
+            _scale = new ScaleColumn(_colWidth, _headerHeight, _bodyHeight);
             _panel.Children.Add(_scale);
-            _height = _scale.CanvasHeight;
             for (int i = 0; i < _model.ColumnNumber; ++i)
             {
-                Column c = new Column(_colWidth, _height, list.ElementAt(i), _model);
+                Column c = new Column(_colWidth, _headerHeight, _bodyHeight, list.ElementAt(i), _model);
                 _columns.Add(c);
                 _panel.Children.Add(c);
             }
@@ -127,7 +136,7 @@ namespace diagram.DynamicDiagram
 
         public void addColumn(int pos, List<Data> list)
         {
-            Column c = new Column(_colWidth, _height, list, _model);
+            Column c = new Column(_colWidth, _headerHeight, _bodyHeight, list, _model);
             _columns.Insert(pos - 1, c);
             _panel.Children.Insert(pos, c);
             adjustGraphics();
@@ -167,6 +176,17 @@ namespace diagram.DynamicDiagram
         public void saveDataConfig(object sender, RoutedEventArgs args)
         {
             _model.saveDataConfig(_columns);
+
+            // 保存时间间隔配置
+            XmlDocument doc = new XmlDocument();
+            doc.Load(_configPath);
+
+            XmlNode node = doc.SelectSingleNode("Diagram/DisplayInterval");
+            node.InnerText = _model.DisplayInterval.ToString();
+            node = doc.SelectSingleNode("Diagram/Interval");
+            node.InnerText = (_model.Interval / 1000).ToString();
+
+            doc.Save(_configPath);
         }
         #endregion
 
@@ -219,8 +239,6 @@ namespace diagram.DynamicDiagram
         //    _model.getData(ds);
         //}
 
-
-
         public void getData(object sender, EventArgs args)
         {
             DataSet dataSet = new DataSet();
@@ -234,7 +252,7 @@ namespace diagram.DynamicDiagram
                 String time = dataSet.Tables[0].Rows[0]["TTIME"].ToString();
                 // 数据截止时间
                 Time last = new Time(date, time);
-                Time first = last.subtractMinutes(_model.DisplayInterval);
+                Time first = last.SubtractMinutes(_model.DisplayInterval);
                 date = first.ToDateString();
                 time = first.ToTimeString();
 
@@ -258,11 +276,11 @@ namespace diagram.DynamicDiagram
 
                 // 数据起始时间
                 first = getDateTime(ds.Tables[0].Rows[0]["TDATE"].ToString(),
-                                         ds.Tables[0].Rows[0]["TTIME"].ToString());
+                                    ds.Tables[0].Rows[0]["TTIME"].ToString());
 
                 data.FirstTime = first;
                 // 获取两时间的差值
-                int diff = last.get_diff_by_minute(first);
+                int diff = last.GetDiffByMinute(first);
                 data.getTime(last, diff);
 
                 int rowCount = ds.Tables[0].Rows.Count;
@@ -282,6 +300,7 @@ namespace diagram.DynamicDiagram
                     col.repaint(data);
                 }
                 Scale.repaintScale(data);
+                _timer.Interval = _model.Interval;
             }
         }
 

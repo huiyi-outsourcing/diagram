@@ -12,6 +12,6 @@
     <Column>TVOLACT</Column>
     <Column>DXC</Column>
     <Column>MFIA,MFOA</Column>
-    <Column>MTOA,MTIA</Column>
+    <Column>MTIA,MTOA</Column>
   </ColumnPos>
 </Data>

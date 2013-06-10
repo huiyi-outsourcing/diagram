@@ -19,9 +19,9 @@ namespace diagram.DynamicDiagram
     public class ScaleColumn : Grid
     {
         #region Constructor
-        public ScaleColumn(double colWidth)
+        public ScaleColumn(double colWidth, int headerHeight, int bodyHeight)
         {
-            initializeData(colWidth);
+            initializeData(colWidth, headerHeight, bodyHeight);
             initializeGraphics();
             initializeContextMenu();
         }
@@ -44,15 +44,11 @@ namespace diagram.DynamicDiagram
         #endregion
 
         #region Initialization
-        private void initializeData(double colWidth)
+        private void initializeData(double colWidth, int headerHeight, int bodyHeight)
         {
-            XmlDocument xml = new XmlDocument();
-            xml.Load("..\\..\\DynamicDiagram\\DiagramConfig.xml");
-            XmlNode node = xml.SelectSingleNode("Diagram/ColumnBody/canvasheight");
-            _canvasHeight = Int32.Parse(node.InnerText);
-            node = xml.SelectSingleNode("Diagram/ColumnHeader/height");
-            _headerHeight = Int32.Parse(node.InnerText);
 
+            _canvasHeight = bodyHeight;
+            _headerHeight = headerHeight;
             _colWidth = colWidth;
         }
 
@@ -75,7 +71,7 @@ namespace diagram.DynamicDiagram
             _menu = new ContextMenu();
             MenuItem add = new MenuItem() { Header = "在右添加一列" };
             add.Click += new RoutedEventHandler(addColumnToTheRight);
-            MenuItem alter = new MenuItem() { Header = "更改刻度.." };
+            MenuItem alter = new MenuItem() { Header = "更改时间间隔.." };
             alter.Click += new RoutedEventHandler(alterColumn);
             MenuItem save = new MenuItem() { Header = "保存配置" };
             save.Click += new RoutedEventHandler(saveConfig);
@@ -108,6 +104,10 @@ namespace diagram.DynamicDiagram
 
         public void alterColumn(object sender, RoutedEventArgs args)
         {
+            StackPanel panel = this.Parent as StackPanel;
+            TimeBasedDynamicDiagram diagram = panel.Parent as TimeBasedDynamicDiagram;
+            ChangeIntervalWindow window = new ChangeIntervalWindow(diagram.Model);
+            window.Show();
             //ChangeScaleWindow window = new ChangeScaleWindow(this, _colWidth);
             //window.Show();
         }

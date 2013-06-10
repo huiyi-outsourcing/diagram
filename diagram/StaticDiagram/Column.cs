@@ -20,9 +20,9 @@ namespace diagram.StaticDiagram
 {
     class Column : Grid
     {
-        public Column(int width, int height, List<Data> datalist, double minDEPTH, double maxDEPTH, double scale, DataModel model)
+        public Column(int width, int headerHeight, int bodyHeight, List<Data> datalist, double minDEPTH, double maxDEPTH, double scale, DataModel model)
         {
-            initializeData(width, height, datalist, minDEPTH, maxDEPTH, scale, model);
+            initializeData(width, headerHeight, bodyHeight, datalist, minDEPTH, maxDEPTH, scale, model);
             initializeGraphics();
             initializeContextMenu();
         }
@@ -42,7 +42,6 @@ namespace diagram.StaticDiagram
             Brushes.Black
         };
 
-        private int _minwidth;
         private int _width;
         private double _minDEPTH;
         private double _maxDEPTH;
@@ -62,7 +61,7 @@ namespace diagram.StaticDiagram
         #endregion
 
         #region 初始化
-        private void initializeData(int width, int height, List<Data> datalist, double minDEPTH, double maxDEPTH, double scale, DataModel model)
+        private void initializeData(int width, int headerHeight, int bodyHeight, List<Data> datalist, double minDEPTH, double maxDEPTH, double scale, DataModel model)
         {
             List<ColumnHeaderData> list = new List<ColumnHeaderData>();
             foreach (Data data in datalist)
@@ -70,16 +69,12 @@ namespace diagram.StaticDiagram
                 list.Add(new ColumnHeaderData(data));
             }
 
-            _header = new ColumnHeader(list);
-            _body = new ColumnBody(width, height);
+            _header = new ColumnHeader(list, headerHeight);
+            _body = new ColumnBody(width, bodyHeight);
             _minDEPTH = minDEPTH;
             _maxDEPTH = maxDEPTH;
             _scale = scale;
 
-            XmlDocument xml = new XmlDocument();
-            xml.Load("..\\..\\StaticDiagram\\DiagramConfig.xml");
-            XmlNode node = xml.SelectSingleNode("Diagram/Column/minwidth");
-            _minwidth = Int32.Parse(node.InnerText);
             _width = width;
 
             _model = model;
@@ -88,7 +83,6 @@ namespace diagram.StaticDiagram
         public void initializeGraphics()
         {
             _coldef = new ColumnDefinition();
-            _coldef.MinWidth = _minwidth;
             _coldef.Width = new GridLength(_width, GridUnitType.Pixel);
             this.ColumnDefinitions.Add(_coldef);
             RowDefinition _rowdef1 = new RowDefinition();
@@ -182,6 +176,8 @@ namespace diagram.StaticDiagram
 
         public static readonly RoutedEvent delColumnEvent = EventManager.RegisterRoutedEvent
             ("delColumnEvent", RoutingStrategy.Bubble, typeof(EventHandler<delEventArgs>), typeof(Column));
+
+        public static readonly RoutedEvent saveGraphicsEvent = EventManager.RegisterRoutedEvent("saveGraphicsEvent", RoutingStrategy.Bubble, typeof(EventHandler<saveEventArgs>), typeof(Column));
         #endregion
 
         #region 图形处理
@@ -254,6 +250,12 @@ namespace diagram.StaticDiagram
         //    }
         //}
         #endregion
+    }
+
+    class saveGraphicsArgs : RoutedEventArgs
+    { 
+         public saveGraphicsArgs(RoutedEvent routedEvent, object source)
+            : base(routedEvent, source) { }
     }
 
     class saveEventArgs : RoutedEventArgs
