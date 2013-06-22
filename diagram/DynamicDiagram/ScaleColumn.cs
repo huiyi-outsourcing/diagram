@@ -28,18 +28,32 @@ namespace diagram.DynamicDiagram
         #endregion
 
         #region Properties
+        private Canvas _header;
+        private Canvas _body;
+
         private int _canvasHeight;          // canvas的高度
         private double _colWidth;              // 数据显示列的宽度
         private int _width = 100;            // 自身宽度
         private int _headerHeight;          // 表头的高度
 
-        private Canvas _canvas;
         private ContextMenu _menu;
 
         public int CanvasHeight
         {
             get { return _canvasHeight; }
             set { _canvasHeight = value; }
+        }
+
+        public Canvas Header
+        {
+            get { return _header; }
+            set { _header = value; }
+        }
+
+        public Canvas Body
+        {
+            get { return _body; }
+            set { _body = value; }
         }
         #endregion
 
@@ -54,13 +68,14 @@ namespace diagram.DynamicDiagram
 
         private void initializeGraphics()
         {
-            ColumnDefinition cdef = new ColumnDefinition() { Width = new GridLength(_width, GridUnitType.Pixel) };
-            RowDefinition header = new RowDefinition() { Height = new GridLength(_headerHeight, GridUnitType.Pixel) };
-            RowDefinition canvas = new RowDefinition();
+        //{
+        //    ColumnDefinition cdef = new ColumnDefinition() { Width = new GridLength(_width, GridUnitType.Pixel) };
+        //    RowDefinition header = new RowDefinition() { Height = new GridLength(_headerHeight, GridUnitType.Pixel) };
+        //    RowDefinition canvas = new RowDefinition();
 
-            this.ColumnDefinitions.Add(cdef);
-            this.RowDefinitions.Add(header);
-            this.RowDefinitions.Add(canvas);
+        //    this.ColumnDefinitions.Add(cdef);
+        //    this.RowDefinitions.Add(header);
+        //    this.RowDefinitions.Add(canvas);
 
             drawHeader();
             drawCanvas();
@@ -85,7 +100,7 @@ namespace diagram.DynamicDiagram
             _menu.Items.Add(save);
             _menu.Items.Add(draw);
             _menu.Items.Add(stop);
-            this.ContextMenu = _menu;
+            _header.ContextMenu = _menu;
         }
         #endregion
 
@@ -95,16 +110,16 @@ namespace diagram.DynamicDiagram
         #region RoutingMethods
         private void addColumnToTheRight(object sender, RoutedEventArgs args)
         {
-            StackPanel panel = this.Parent as StackPanel;
+            StackPanel panel = _header.Parent as StackPanel;
             TimeBasedDynamicDiagram diagram = panel.Parent as TimeBasedDynamicDiagram;
-            int index = panel.Children.IndexOf(this);
+            int index = panel.Children.IndexOf(_header);
             ChooseColumnWindow window = new ChooseColumnWindow(diagram, index, this);
             window.Show();
         }
 
         public void alterColumn(object sender, RoutedEventArgs args)
         {
-            StackPanel panel = this.Parent as StackPanel;
+            StackPanel panel = _header.Parent as StackPanel;
             TimeBasedDynamicDiagram diagram = panel.Parent as TimeBasedDynamicDiagram;
             ChangeIntervalWindow window = new ChangeIntervalWindow(diagram.Model);
             window.Show();
@@ -115,19 +130,19 @@ namespace diagram.DynamicDiagram
         private void saveConfig(object sender, RoutedEventArgs args)
         {
             saveEventArgs save = new saveEventArgs(Column.saveConfigEvent, this);
-            this.RaiseEvent(save);
+            _header.RaiseEvent(save);
         }
 
         private void drawGraphics(object sender, RoutedEventArgs args)
         {
-            StackPanel panel = this.Parent as StackPanel;
+            StackPanel panel = _header.Parent as StackPanel;
             TimeBasedDynamicDiagram diagram = panel.Parent as TimeBasedDynamicDiagram;
             diagram.startDynamicDrawing();
         }
 
         private void stopDrawing(object sender, RoutedEventArgs args)
         {
-            StackPanel panel = this.Parent as StackPanel;
+            StackPanel panel = _header.Parent as StackPanel;
             TimeBasedDynamicDiagram diagram = panel.Parent as TimeBasedDynamicDiagram;
             diagram.endDrawing();
         }
@@ -136,29 +151,29 @@ namespace diagram.DynamicDiagram
         #region Graphics
         private void drawHeader()
         {
+            _header = new Canvas();
+            _header.Width = _width;
+            _header.Height = _headerHeight;
+
             TextBlock block = new TextBlock();
+            Canvas.SetTop(block, 35);
+            Canvas.SetLeft(block, 35);
             block.Text = "时间\r\n井深";
             block.FontSize = 13;
             block.Foreground = Brushes.Black;
-            StackPanel panel = new StackPanel() { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center };
-            Grid.SetColumn(panel, 0);
-            Grid.SetRow(panel, 0);
-            panel.Children.Add(block);
             Border border = new Border();
             border.BorderBrush = Brushes.LightBlue;
             border.BorderThickness = new Thickness(1.5);
-            this.Children.Add(panel);
-            this.Children.Add(border);
+            border.Width = _width;
+            border.Height = _headerHeight;
+            _header.Children.Add(block);
+            _header.Children.Add(border);
         }
 
         private void drawCanvas()
         {
-            _canvas = new Canvas() { Width = _width, Height = _canvasHeight };
+            _body = new Canvas() { Width = _width, Height = _canvasHeight };
             drawBorder();
-            //drawScale();
-            Grid.SetColumn(_canvas, 0);
-            Grid.SetRow(_canvas, 1);
-            this.Children.Add(_canvas);
         }
 
         private void drawBorder()
@@ -167,18 +182,20 @@ namespace diagram.DynamicDiagram
             Line bottom = new Line() { X1 = 0, Y1 = _canvasHeight, X2 = _width, Y2 = _canvasHeight, Stroke = Brushes.LightBlue, StrokeThickness = 1.5 };
             Line left = new Line() { X1 = 0, Y1 = 0, X2 = 0, Y2 = _canvasHeight, Stroke = Brushes.LightBlue, StrokeThickness = 1.5 };
             Line right = new Line() { X1 = _width, Y1 = 0, X2 = _width, Y2 = _canvasHeight, Stroke = Brushes.LightBlue, StrokeThickness = 1.5 };
-            _canvas.Children.Add(top);
-            _canvas.Children.Add(bottom);
-            _canvas.Children.Add(left);
-            _canvas.Children.Add(right);
+            _body.Children.Add(top);
+            _body.Children.Add(bottom);
+            _body.Children.Add(left);
+            _body.Children.Add(right);
         }
 
         public void repaintScale(ScaleData data)
         {
-            if (this._canvas.Children.Count > 4)
+            if (_body.Children.Count > 4)
             {
-                this._canvas.Children.RemoveRange(4, this.Children.Count);
+                _body.Children.RemoveRange(0, _body.Children.Count);
             }
+            drawBorder();
+
             double scale = _canvasHeight * 1.0 / 3;
             for (int i = 1; i < 3; ++i)
             {
@@ -191,8 +208,9 @@ namespace diagram.DynamicDiagram
 
                 Canvas.SetLeft(block, 10);
                 Canvas.SetTop(block, i * scale - 30);
-                _canvas.Children.Add(block);
+                _body.Children.Add(block);
             }
+            //initializeContextMenu();
         }
         #endregion
     }

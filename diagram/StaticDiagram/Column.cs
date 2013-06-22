@@ -96,16 +96,13 @@ namespace diagram.StaticDiagram
 
         public void initializeHeader()
         {
-            Grid.SetColumn(_header, 0);
-            Grid.SetRow(_header, 0);
-            this.Children.Add(_header);
+            _header.Width = _width;
+            initializeContextMenu();
         }
 
         public void initializeBody()
         {
-            Grid.SetColumn(_body, 0);
-            Grid.SetRow(_body, 1);
-            this.Children.Add(_body);
+            _body.Width = _width;
         }
 
         private void initializeContextMenu()
@@ -128,16 +125,16 @@ namespace diagram.StaticDiagram
             _menu.Items.Add(alter);
             _menu.Items.Add(draw);
             _menu.Items.Add(save);
-            this.ContextMenu = _menu;
+            _header.ContextMenu = _menu;
         }
         #endregion
 
         #region 路由事件
         private void addColumnToTheRight(object sender, RoutedEventArgs args)
         {
-            StackPanel panel = this.Parent as StackPanel;
+            StackPanel panel = _header.Parent as StackPanel;
             StaticDiagram diagram = panel.Parent as StaticDiagram;
-            int index = panel.Children.IndexOf(this);
+            int index = panel.Children.IndexOf(_header);
             ChooseColumnWindow window = new ChooseColumnWindow(diagram, index, this);
             window.Show();
         }
@@ -151,18 +148,18 @@ namespace diagram.StaticDiagram
 
         private void deleteColumn(object sender, RoutedEventArgs args)
         {
-            StackPanel panel = this.Parent as StackPanel;
-            int index = panel.Children.IndexOf(this);
+            StackPanel panel = _header.Parent as StackPanel;
+            int index = panel.Children.IndexOf(_header);
 
             delEventArgs del = new delEventArgs(delColumnEvent, this);
             del.index = index;
-            this.RaiseEvent(del);
+            _header.RaiseEvent(del);
         }
 
         private void saveConfig(object sender, RoutedEventArgs args)
         {
             saveEventArgs save = new saveEventArgs(saveConfigEvent, this);
-            this.RaiseEvent(save);
+            _header.RaiseEvent(save);
         }
 
         public void repaint(object sender, RoutedEventArgs args)
@@ -212,7 +209,13 @@ namespace diagram.StaticDiagram
 
                 for (int n = 0; n < data.Count-1; ++n)
                 {
-                    Line line = new Line() { X1 = (data.ElementAt(n) - min) * this._body.Width / span, Y1 = (getDEPTMEAS(n) - Dmin) / _scale, X2 = (data.ElementAt(n + 1) - min) * this._body.Width / span, Y2 = (getDEPTMEAS(n+1) - Dmin) / _scale };
+                    Line line = new Line()
+                    {
+                        X1 = (data.ElementAt(n) - min) * this._body.Width / span,
+                        Y1 = (getDEPTMEAS(n) - Dmin) / _scale,
+                        X2 = (data.ElementAt(n + 1) - min) * this._body.Width / span,
+                        Y2 = (getDEPTMEAS(n + 1) - Dmin) / _scale
+                    };
                     line.Stroke = colors[i];
                     line.StrokeThickness = 0.8;
                     

@@ -106,7 +106,7 @@ namespace diagram.DynamicDiagram
                 }
                 if (_invoker.GetType() == typeof(Column) || _invoker.GetType() == typeof(ScaleColumn))
                 {
-                    _diagram.addColumn(_index + 1, list);
+                    _diagram.addColumn(_index, list);
                 }
                 else
                 {

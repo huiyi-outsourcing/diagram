@@ -110,16 +110,13 @@ namespace diagram.DynamicDiagram
 
         public void initializeHeader()
         {
-            Grid.SetColumn(_header, 0);
-            Grid.SetRow(_header, 0);
-            this.Children.Add(_header);
+            _header.Width = _width;
+            initializeContextMenu();
         }
 
         public void initializeBody()
         {
-            Grid.SetColumn(_body, 0);
-            Grid.SetRow(_body, 1);
-            this.Children.Add(_body);
+            _body.Width = _width;
         }
 
         private void initializeContextMenu()
@@ -142,7 +139,7 @@ namespace diagram.DynamicDiagram
             _menu.Items.Add(alter);
             //_menu.Items.Add(draw);
             _menu.Items.Add(save);
-            this.ContextMenu = _menu;
+            _header.ContextMenu = _menu;
         }
         #endregion
 
@@ -152,9 +149,9 @@ namespace diagram.DynamicDiagram
         #region RoutingMethods
         private void addColumnToTheLeft(object sender, RoutedEventArgs args)
         {
-            StackPanel panel = this.Parent as StackPanel;
+            StackPanel panel = _header.Parent as StackPanel;
             TimeBasedDynamicDiagram diagram = panel.Parent as TimeBasedDynamicDiagram;
-            int index = panel.Children.IndexOf(this);
+            int index = panel.Children.IndexOf(_header);
             ChooseColumnWindow window = new ChooseColumnWindow(diagram, index, this);
             window.Show();
         }
@@ -168,18 +165,18 @@ namespace diagram.DynamicDiagram
 
         private void deleteColumn(object sender, RoutedEventArgs args)
         {
-            StackPanel panel = this.Parent as StackPanel;
-            int index = panel.Children.IndexOf(this);
+            StackPanel panel = _header.Parent as StackPanel;
+            int index = panel.Children.IndexOf(_header);
 
             delEventArgs del = new delEventArgs(delColumnEvent, this);
             del.index = index;
-            this.RaiseEvent(del);
+            _header.RaiseEvent(del);
         }
 
         private void saveConfig(object sender, RoutedEventArgs args)
         {
             saveEventArgs save = new saveEventArgs(saveConfigEvent, this);
-            this.RaiseEvent(save);
+            _header.RaiseEvent(save);
         }
 
         // 注册路由事件

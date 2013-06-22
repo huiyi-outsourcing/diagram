@@ -19,6 +19,8 @@ namespace diagram.StaticDiagram
     public class ColumnScale : Grid
     {
         #region Properties
+        private Canvas _header;
+        private Canvas _body;
         private double _minDepth;
         private double _maxDepth;
         private double _scale;              // 刻度
@@ -28,7 +30,7 @@ namespace diagram.StaticDiagram
         private int _headerHeight;          // 表头的高度
         private int _showHeight;            // 显示井深高度
 
-        private Canvas _canvas;
+        //private Canvas _canvas;
         private ContextMenu _menu;
 
         public int CanvasHeight
@@ -41,6 +43,18 @@ namespace diagram.StaticDiagram
         {
             get { return _scale; }
             set { _scale = value; }
+        }
+
+        public Canvas Header
+        {
+            get { return _header; }
+            set { _header = value; }
+        }
+
+        public Canvas Body
+        {
+            get { return _body; }
+            set { _body = value; }
         }
         #endregion
 
@@ -59,15 +73,17 @@ namespace diagram.StaticDiagram
             this.Children.RemoveRange(0, this.Children.Count);
             drawHeader();
             drawCanvas();
+            initializeContextMenu();
         }
 
         public void adjustScaleWindow(double scale)
         {
             _scale = scale;
-            this.Children.RemoveRange(0, this.Children.Count);
+            _header.Children.RemoveRange(0, _header.Children.Count);
+            _body.Children.RemoveRange(0, _body.Children.Count);
             drawHeader();
             drawCanvas();
-            StackPanel panel = this.Parent as StackPanel;
+            StackPanel panel = _header.Parent as StackPanel;
             StaticDiagram diagram = panel.Parent as StaticDiagram;
             diagram.adjustScale(scale);
         }
@@ -97,16 +113,16 @@ namespace diagram.StaticDiagram
             _menu.Items.Add(add);
             _menu.Items.Add(alter);
             _menu.Items.Add(save);
-            this.ContextMenu = _menu;
+            _header.ContextMenu = _menu;
         }
         #endregion
 
         #region 路由事件
         private void addColumnToTheRight(object sender, RoutedEventArgs args)
         {
-            StackPanel panel = this.Parent as StackPanel;
+            StackPanel panel = _header.Parent as StackPanel;
             StaticDiagram diagram = panel.Parent as StaticDiagram;
-            int index = panel.Children.IndexOf(this);
+            int index = panel.Children.IndexOf(_header);
             ChooseColumnWindow window = new ChooseColumnWindow(diagram, index, this);
             window.Show();
         }
@@ -120,20 +136,20 @@ namespace diagram.StaticDiagram
         private void saveConfig(object sender, RoutedEventArgs args)
         {
             saveEventArgs save = new saveEventArgs(Column.saveConfigEvent, this);
-            this.RaiseEvent(save);
+            _header.RaiseEvent(save);
         }
         #endregion
 
         #region 绘制边框及刻度
         private void initializeGraphics()
         {
-            ColumnDefinition cdef = new ColumnDefinition() { Width = new GridLength(_width, GridUnitType.Pixel) };
-            RowDefinition header = new RowDefinition() { Height = new GridLength(_headerHeight, GridUnitType.Pixel) };
-            RowDefinition canvas = new RowDefinition();
+            //ColumnDefinition cdef = new ColumnDefinition() { Width = new GridLength(_width, GridUnitType.Pixel) };
+            //RowDefinition header = new RowDefinition() { Height = new GridLength(_headerHeight, GridUnitType.Pixel) };
+            //RowDefinition canvas = new RowDefinition();
 
-            this.ColumnDefinitions.Add(cdef);
-            this.RowDefinitions.Add(header);
-            this.RowDefinitions.Add(canvas);
+            //this.ColumnDefinitions.Add(cdef);
+            //this.RowDefinitions.Add(header);
+            //this.RowDefinitions.Add(canvas);
 
             drawHeader();
             drawCanvas();
@@ -141,29 +157,30 @@ namespace diagram.StaticDiagram
 
         private void drawHeader()
         {
+            _header = new Canvas();
+            _header.Width = _width;
+            _header.Height = _headerHeight;
+
             TextBlock block = new TextBlock();
+            Canvas.SetTop(block, 40);
+            Canvas.SetLeft(block, 5);
             block.Text = "井深(m)";
             block.FontSize = 13;
             block.Foreground = Brushes.Black;
-            StackPanel panel = new StackPanel() { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center };
-            Grid.SetColumn(panel, 0);
-            Grid.SetRow(panel, 0);
-            panel.Children.Add(block);
             Border border = new Border();
             border.BorderBrush = Brushes.LightBlue;
             border.BorderThickness = new Thickness(1.5);
-            this.Children.Add(panel);
-            this.Children.Add(border);
+            border.Width = _width;
+            border.Height = _headerHeight;
+            _header.Children.Add(block);
+            _header.Children.Add(border);
         }
 
         private void drawCanvas()
         {
-            _canvas = new Canvas() { Width = _width, Height = _canvasHeight };
+            _body = new Canvas() { Width = _width, Height = _canvasHeight };
             drawBorder();
             drawScale();
-            Grid.SetColumn(_canvas, 0);
-            Grid.SetRow(_canvas, 1);
-            this.Children.Add(_canvas);
         }
 
         private void drawBorder()
@@ -172,10 +189,10 @@ namespace diagram.StaticDiagram
             Line bottom = new Line() { X1 = 0, Y1 = _canvasHeight, X2 = _width, Y2 = _canvasHeight, Stroke = Brushes.LightBlue, StrokeThickness = 1.5 };
             Line left = new Line() { X1 = 0, Y1 = 0, X2 = 0, Y2 = _canvasHeight, Stroke = Brushes.LightBlue, StrokeThickness = 1.5 };
             Line right = new Line() { X1 = _width, Y1 = 0, X2 = _width, Y2 = _canvasHeight, Stroke = Brushes.LightBlue, StrokeThickness = 1.5 };
-            _canvas.Children.Add(top);
-            _canvas.Children.Add(bottom);
-            _canvas.Children.Add(left);
-            _canvas.Children.Add(right);
+            _body.Children.Add(top);
+            _body.Children.Add(bottom);
+            _body.Children.Add(left);
+            _body.Children.Add(right);
 
             for (int i = 1; i * _scale * _colWidth < _canvasHeight; ++i)
             {
@@ -189,7 +206,7 @@ namespace diagram.StaticDiagram
                     StrokeThickness = 1,
                     StrokeDashArray = new DoubleCollection() { 0.5, 0.5 }
                 };
-                _canvas.Children.Add(line);
+                _body.Children.Add(line);
             }
         }
 
@@ -197,9 +214,11 @@ namespace diagram.StaticDiagram
         {
             _colWidth = width;
             adjustScale();
-            _canvas.Children.RemoveRange(0, _canvas.Children.Count);
-            drawHeader();
-            drawCanvas();
+            //_body.Children.RemoveRange(0, _body.Children.Count);
+            //drawHeader();
+            //drawCanvas();
+            initializeGraphics();
+            initializeContextMenu();
         }
 
         private void drawScale()
@@ -212,7 +231,7 @@ namespace diagram.StaticDiagram
                 block.FontSize = 12;
                 Canvas.SetLeft(block, 20);
                 Canvas.SetTop(block, i * _colWidth);
-                _canvas.Children.Add(block);
+                _body.Children.Add(block);
             }
         }
         #endregion

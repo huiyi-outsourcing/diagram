@@ -7,6 +7,10 @@
   <ColumnBody>
     <CanvasHeight>1000</CanvasHeight>
   </ColumnBody>
+
+  <BodyViewer>
+    <Height>500</Height>
+  </BodyViewer>
   
   <ColumnHeader>
     <Height>100</Height>

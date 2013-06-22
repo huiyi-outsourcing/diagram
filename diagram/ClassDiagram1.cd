@@ -1,20 +1,279 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="diagram.DynamicDiagram.DataModel">
-    <Position X="0.5" Y="0.5" Width="3.5" />
-    <TypeIdentifier>
-      <HashCode>AAAQgAAAAAAAEAAAAIAiQAEEDAAACACEBQQAAIAAAIA=</HashCode>
-      <FileName>DynamicDiagram\DataModel.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="diagram.StaticDiagram.DataModel">
-    <Position X="4.25" Y="0.5" Width="3.25" />
+  <Class Name="diagram.Common.Data">
+    <Position X="41.5" Y="3" Width="2.25" />
     <Compartments>
-      <Compartment Name="Properties" Collapsed="true" />
+      <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>ACAAgBAAAAAAABAAAABCQAAACgAACAAEAAQAAAAAAIA=</HashCode>
-      <FileName>StaticDiagram\DataModel.cs</FileName>
+      <HashCode>AgAQMAAIBBAAAAAgEAAACgQAAAAACEAAEABAAAAAAQA=</HashCode>
+      <FileName>Common\Data.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="diagram.Common.DEPTMEAS" Collapsed="true">
+    <Position X="11.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\Data.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="diagram.Common.BKHT" Collapsed="true">
+    <Position X="25.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\Data.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="diagram.Common.HOOKLOAD" Collapsed="true">
+    <Position X="38.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\Data.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="diagram.Common.ROP" Collapsed="true">
+    <Position X="52.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\Data.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="diagram.Common.WOB" Collapsed="true">
+    <Position X="63.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\Data.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="diagram.Common.RPM" Collapsed="true">
+    <Position X="74.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\Data.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="diagram.Common.TORQUE" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\Data.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="diagram.Common.SPM1" Collapsed="true">
+    <Position X="14" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\Data.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="diagram.Common.SPM2" Collapsed="true">
+    <Position X="27.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\Data.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="diagram.Common.SPM3" Collapsed="true">
+    <Position X="41" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\Data.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="diagram.Common.STANDPRES" Collapsed="true">
+    <Position X="54.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\Data.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="diagram.Common.TOTALPIT" Collapsed="true">
+    <Position X="65.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\Data.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="diagram.Common.FLOWIN" Collapsed="true">
+    <Position X="77" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\Data.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="diagram.Common.FLOWOUT" Collapsed="true">
+    <Position X="2.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\Data.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="diagram.Common.WEIGHTIN" Collapsed="true">
+    <Position X="16.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\Data.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="diagram.Common.WEIGHTOUT" Collapsed="true">
+    <Position X="29.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\Data.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="diagram.Common.TEMPIN" Collapsed="true">
+    <Position X="43.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\Data.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="diagram.Common.TEMPOUT" Collapsed="true">
+    <Position X="56.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\Data.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="diagram.Common.CONDIN" Collapsed="true">
+    <Position X="68" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\Data.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="diagram.Common.CONDOUT" Collapsed="true">
+    <Position X="79.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\Data.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="diagram.Common.PIT1" Collapsed="true">
+    <Position X="5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\Data.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="diagram.Common.PIT2" Collapsed="true">
+    <Position X="18.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\Data.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="diagram.Common.PIT3" Collapsed="true">
+    <Position X="32" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\Data.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="diagram.Common.PIT4" Collapsed="true">
+    <Position X="45.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\Data.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="diagram.Common.PIT5" Collapsed="true">
+    <Position X="59" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\Data.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="diagram.Common.PIT6" Collapsed="true">
+    <Position X="70.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\Data.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="diagram.Common.PIT7" Collapsed="true">
+    <Position X="81.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\Data.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="diagram.Common.C1" Collapsed="true">
+    <Position X="7.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\Data.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="diagram.Common.C2" Collapsed="true">
+    <Position X="20.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\Data.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="diagram.Common.CO2" Collapsed="true">
+    <Position X="34.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\Data.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="diagram.Common.TVOLACT" Collapsed="true">
+    <Position X="47.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\Data.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="diagram.Common.MFIA" Collapsed="true">
+    <Position X="61.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\Data.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="diagram.Common.MFOA" Collapsed="true">
+    <Position X="72.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\Data.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="diagram.Common.TTIME" Collapsed="true">
+    <Position X="83.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\Data.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="diagram.Common.TDATE" Collapsed="true">
+    <Position X="9.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\Data.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="diagram.Common.MTOA" Collapsed="true">
+    <Position X="23" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\Data.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="diagram.Common.MTIA" Collapsed="true">
+    <Position X="36.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\Data.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="diagram.Common.DXC" Collapsed="true">
+    <Position X="50" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\Data.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="微软雅黑" Size="9" />

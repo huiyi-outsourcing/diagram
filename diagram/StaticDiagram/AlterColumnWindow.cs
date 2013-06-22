@@ -151,7 +151,7 @@ namespace diagram.StaticDiagram
         // 点击 添加 按钮后的响应事件
         private void addButtonClicked(object sender, RoutedEventArgs args)
         {
-            StackPanel panel = _column.Parent as StackPanel;
+            StackPanel panel = _column.Header.Parent as StackPanel;
             StaticDiagram diagram = panel.Parent as StaticDiagram;
             int index = panel.Children.IndexOf(_column);
             ChooseColumnWindow window = new ChooseColumnWindow(diagram, index, this);
@@ -179,15 +179,23 @@ namespace diagram.StaticDiagram
             }
 
             int headerHeight = _column.Header.DefaultHeight;
-            _column.Children.Remove(_column.Header);
-            _column.Children.Remove(_column.Body);
+
+            int index = (_column.Header.Parent as StackPanel).Children.IndexOf(_column.Header);
+            StackPanel headerPanel = (_column.Header.Parent as StackPanel);
+            StackPanel bodyPanel = (_column.Body.Parent as StackPanel);
+            headerPanel.Children.Remove(_column.Header);
+            bodyPanel.Children.Remove(_column.Body);
+            //_column.Children.Remove(_column.Header);
+            //_column.Children.Remove(_column.Body);
             _column.Header = new ColumnHeader(list, headerHeight);
             _column.initializeHeader();
-            _column.Body.Children.RemoveRange(0, _column.Body.Children.Count);
+            //_column.Body.Children.RemoveRange(0, _column.Body.Children.Count);
             _column.Body = new ColumnBody(Convert.ToInt32(_column.Body.Width), Convert.ToInt32(_column.Body.Height));
             _column.initializeBody();
 
             _column.drawGraphics();
+            headerPanel.Children.Insert(index, _column.Header);
+            bodyPanel.Children.Insert(index, _column.Body);
 
             this.Close();
         }

@@ -9,7 +9,6 @@
     <DataItem>DXC</DataItem>
   </Datas>
   <ColumnPos>
-    <Column>TVOLACT</Column>
     <Column>DXC</Column>
     <Column>MFIA,MFOA</Column>
     <Column>MTIA,MTOA</Column>

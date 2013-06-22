@@ -107,7 +107,7 @@ namespace diagram.StaticDiagram
 
                 if (_invoker.GetType() == typeof(Column) || _invoker.GetType() == typeof(ColumnScale))
                 {
-                    _diagram.addColumn(_index+1, list);
+                    _diagram.addColumn(_index, list);
                 }
                 else
                 {

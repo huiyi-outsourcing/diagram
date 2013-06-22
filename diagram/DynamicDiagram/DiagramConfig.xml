@@ -10,6 +10,12 @@
     <Height>100</Height>
     <minheight>100</minheight>
   </ColumnHeader>
+  
+  <!-- 绘图部分滚动条高度-->
+  <BodyViewer>
+    <Height>500</Height>
+  </BodyViewer>
+  
   <!-- Define by minute-->
   <DisplayInterval>300</DisplayInterval>
   <!-- Define by second -->

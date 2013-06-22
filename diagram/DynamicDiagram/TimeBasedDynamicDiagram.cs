@@ -21,7 +21,7 @@ using System.Data.SqlClient;
 
 namespace diagram.DynamicDiagram
 {
-    public class TimeBasedDynamicDiagram : ScrollViewer
+    public class TimeBasedDynamicDiagram : StackPanel
     {
         #region Constructor
         public TimeBasedDynamicDiagram(double width, DataModel model, String path)
@@ -33,7 +33,9 @@ namespace diagram.DynamicDiagram
         #endregion
 
         #region Properties
-        private StackPanel _panel;
+        private StackPanel _headerPanel;
+        private ScrollViewer _bodyViewer;
+        private StackPanel _bodyPanel;
 
         private DataModel _model;       // 存储所有数据
         private List<Column> _columns;
@@ -63,6 +65,24 @@ namespace diagram.DynamicDiagram
             get { return _scale; }
             set { _scale = value; }
         }
+
+        public StackPanel HeaderPanel
+        {
+            get { return _headerPanel; }
+            set { _headerPanel = value; }
+        }
+
+        public ScrollViewer BodyViewer
+        {
+            get { return _bodyViewer; }
+            set { _bodyViewer = value; }
+        }
+
+        public StackPanel BodyPanel
+        {
+            get { return _bodyPanel; }
+            set { _bodyPanel = value; }
+        }
         #endregion
 
         #region Initialization
@@ -81,7 +101,13 @@ namespace diagram.DynamicDiagram
             _colWidth = adjustColumnWidth(width, model.DataList.Count);
             _model = model;
             _columns = new List<Column>();
-            _panel = new StackPanel();
+            _headerPanel = new StackPanel();
+            _headerPanel.Orientation = Orientation.Horizontal;
+            _bodyViewer = new ScrollViewer();
+            _bodyViewer.Height = Int32.Parse(doc.SelectSingleNode("Diagram/BodyViewer/Height").InnerText);
+            _bodyPanel = new StackPanel();
+            _bodyPanel.Orientation = Orientation.Horizontal;
+            _bodyViewer.Content = _bodyPanel;
 
             List<List<Data>> list = new List<List<Data>>();
             for (int i = 0; i < _model.ColumnNumber; ++i)
@@ -99,24 +125,24 @@ namespace diagram.DynamicDiagram
             }
 
             _scale = new ScaleColumn(_colWidth, _headerHeight, _bodyHeight);
-            _panel.Children.Add(_scale);
+            _headerPanel.Children.Add(_scale.Header);
+            _bodyPanel.Children.Add(_scale.Body);
             for (int i = 0; i < _model.ColumnNumber; ++i)
             {
                 Column c = new Column(_colWidth, _headerHeight, _bodyHeight, list.ElementAt(i), _model);
                 _columns.Add(c);
-                _panel.Children.Add(c);
+                _headerPanel.Children.Add(c.Header);
+                _bodyPanel.Children.Add(c.Body);
             }
         }
 
         private void initializeGraphics()
         {
-            this.HorizontalScrollBarVisibility = ScrollBarVisibility.Visible;
-            this.VerticalScrollBarVisibility = ScrollBarVisibility.Visible;
-
-            _panel.HorizontalAlignment = HorizontalAlignment.Center;
-            _panel.VerticalAlignment = VerticalAlignment.Top;
-            _panel.Orientation = Orientation.Horizontal;
-            this.Content = _panel;
+            HorizontalAlignment = HorizontalAlignment.Center;
+            VerticalAlignment = VerticalAlignment.Top;
+            Orientation = Orientation.Vertical;
+            this.Children.Add(_headerPanel);
+            this.Children.Add(_bodyViewer);
         }
 
         private void initializeHandler()
@@ -133,22 +159,24 @@ namespace diagram.DynamicDiagram
             else if (width / (int)_ColumnWidth.MIDDLE >= colnum) { return (int)_ColumnWidth.MIDDLE; }
             else { return (int)_ColumnWidth.SMALL; }
         }
-
-        public void addColumn(int pos, List<Data> list)
-        {
-            Column c = new Column(_colWidth, _headerHeight, _bodyHeight, list, _model);
-            _columns.Insert(pos - 1, c);
-            _panel.Children.Insert(pos, c);
-            adjustGraphics();
-        }
         #endregion
 
         #region RoutingMethods
+        public void addColumn(int pos, List<Data> list)
+        {
+            Column c = new Column(_colWidth, _headerHeight, _bodyHeight, list, _model);
+            _columns.Insert(pos, c);
+            _headerPanel.Children.Insert(pos + 1, c.Header);
+            _bodyPanel.Children.Insert(pos + 1, c.Body);
+            adjustGraphics();
+        }
+
         private void delColumn(object sender, RoutedEventArgs args)
         {
             delEventArgs e = (delEventArgs)args;
             _columns.RemoveAt(e.index - 1);           // stackpanel中多一列ColumnScale
-            _panel.Children.RemoveAt(e.index);
+            _headerPanel.Children.RemoveAt(e.index);
+            _bodyPanel.Children.RemoveAt(e.index);
             adjustGraphics();
         }
 
@@ -162,12 +190,15 @@ namespace diagram.DynamicDiagram
                     c.adjustGraphics(width);
                     //c.drawGraphics();
                 }
-                _panel.Children.RemoveRange(0, _panel.Children.Count);
+                _headerPanel.Children.RemoveRange(0, _headerPanel.Children.Count);
+                _bodyPanel.Children.RemoveRange(0, _bodyPanel.Children.Count);
                 //_scale.adjustGraphics(width);
-                _panel.Children.Add(_scale);
+                _headerPanel.Children.Add(_scale.Header);
+                _bodyPanel.Children.Add(_scale.Body);
                 foreach (Column c in _columns)
                 {
-                    _panel.Children.Add(c);
+                    _headerPanel.Children.Add(c.Header);
+                    _bodyPanel.Children.Add(c.Body);
                 }
                 _colWidth = width;
             }
@@ -239,7 +270,7 @@ namespace diagram.DynamicDiagram
         //    _model.getData(ds);
         //}
 
-        public void getData(object sender, EventArgs args)
+        private void getData(object sender, EventArgs args)
         {
             DataSet dataSet = new DataSet();
             dataSet = conn.SelectDataSet("SELECT TOP 1 * FROM " + TableName + " WHERE WELLID = '" + WellID
